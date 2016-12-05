@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+
     <title><%= title %></title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+</head>
+
+<body>
+<script type="text/javascript" src="/javascripts/client.js"></script>
+
+<h1>Welcome to the Player Value Tool!</h1>
+<h2>You can use this tool to retrieve a given player's stats, or add a new player.</h2>
+<section id="selectActionOptions" class="selectAction">
+    <button id="selectGetPlayer" onclick="showGetPlayer()">Get Player Info</button>
+    <button id="selectAddPlayer" onclick="showAddPlayer()">Add New Player</button>
+    <button id="selectUpdatePlayer" onclick="showUpdatePlayer()">Update Existing Player</button>
+    <button id="selectDeletePlayer" onclick="showDeletePlayer()">Delete Player</button>
+</section>
+
+<div id="getPlayer" class="form-class">
+    <form>
+        <section>
+            <p>
+                <label for="sport">Choose a sport:</label>
+                <select name="selectSport" id="sport">
+                    <option value="none" selected="selected"></option>
+                    <option value="nfl">NFL</option>
+                    <option value="nba">NBA</option>
+                    <option value="mlb">MLB</option>
+                    <option value="nhl">NHL</option>
+                </select>
+            </p>
+
+            <p>
+                <span id="playerList">
+                <label for="player">Choose a player:</label>
+                <select name="selectPlayer" id="player">
+                </select>
+                    </span>
+            </p>
+        </section>
+
+        <section>
+            <span id="getPlayerButton">
+            <button id="getPlayer">Get player info</button>
+                </span>
+        </section>
+    </form>
+</div>
+
+<div id="addPlayer" class="form-class"><p>Add Player</p></div>
+<div id="updatePlayer" class="form-class"><p>Update Player</p></div>
+<div id="deletePlayer" class="form-class"><p>Delete Player</p></div>
+<div></div>
+</body>
 </html>

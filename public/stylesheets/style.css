@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+span#playerList, span#getPlayerButton {
+  display: none;
+}
+
+#getPlayer, #addPlayer, #updatePlayer, #deletePlayer {
+  display: none;
+}
