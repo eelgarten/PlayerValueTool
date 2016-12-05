@@ -32,14 +32,24 @@ var showDeletePlayer = function () {
     $('#deletePlayer').show();
 };
 
-var getPlayers = function() {
-    $.getJSON('/getplayers').done(function (data) {
-        console.log('called');
-        data.forEach(function (item) {
+var getPlayers = function(sport) {
+    console.log('getPlayers');
+    console.log(sport);
+    $.getJSON('/getSportPlayers/' + sport).done(function (data) {
+        players = [];
+        data[0].forEach(function (item) {
             players.push(item);
         });
+        clearDropdown('player');
         populateDropdown(players, 'player');
     });
+};
+
+var clearDropdown = function(elementId) {
+    var dropdown = document.getElementById(elementId);
+    while (dropdown.firstChild) {
+        dropdown.removeChild(dropdown.firstChild);
+    }
 };
 
 var populateDropdown = function (list, elementId) {
@@ -48,16 +58,19 @@ var populateDropdown = function (list, elementId) {
             opt = document.createElement("option");
         opt.value = players[i].playerId;
         opt.textContent = players[i].playerName + ', ' + players[i].pos;
-        select.appendChild(opt);
+        select.append(opt);
     }
 };
 
 $(document).ready(function () {
     var activeSport = 'none';
 
+    var getActiveSport = function () {
+        return $('select[name=selectSport]').val();
+    }
+
     $('#sport').change(function () {
-        console.log('sport change');
-        activeSport = $('select[name=selectSport]').val();
+        activeSport = getActiveSport();
         if (activeSport !== 'none') {
             $('#playerList').show();
             $('#getPlayerButton').show();
@@ -66,7 +79,10 @@ $(document).ready(function () {
             $('#playerList').hide();
             $('#getPlayerButton').hide();
         }
-        getPlayers();
+
+        if (activeSport !== 'none') {
+            getPlayers(activeSport);
+        }
     });
 });
 
