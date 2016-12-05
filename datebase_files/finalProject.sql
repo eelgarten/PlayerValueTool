@@ -423,3 +423,15 @@ BEGIN
 	UPDATE players SET players.salary = newSalary WHERE pId = players.playerId;
 END$$
 DELIMITER ;
+
+-- Get players by sport
+DROP PROCEDURE IF EXISTS get_players_in_sport;
+DELIMITER $$
+CREATE PROCEDURE get_players_in_sport
+(
+	IN sport char(3)
+)
+BEGIN
+	SELECT p.playerId FROM players p WHERE sport = p.sport;
+END$$
+DELIMITER ;

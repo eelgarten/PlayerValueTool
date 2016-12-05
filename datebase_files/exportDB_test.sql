@@ -276,10 +276,10 @@ UNLOCK TABLES;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_baseball_hitter`(
 	IN pId varchar(20), atBats int(3), runsScored int(3), hits int(3),
-    doubles int(2), triples int(2), homeruns int(2), runsBattedIn int(3),
-    stolenBases int(3), caughtStealing int(3), walksDrawn int(3), strikeouts int(3),
-    battingAverage DECIMAL(4,3), onBasePercentage DECIMAL(4,3), sluggingPercentage DECIMAL(4,3),
-    onBasePlusSlugging DECIMAL(4,3), winsAboveReplacement DECIMAL(4,2)
+	doubles int(2), triples int(2), homeruns int(2), runsBattedIn int(3),
+	stolenBases int(3), caughtStealing int(3), walksDrawn int(3), strikeouts int(3),
+	battingAverage DECIMAL(4,3), onBasePercentage DECIMAL(4,3), sluggingPercentage DECIMAL(4,3),
+	onBasePlusSlugging DECIMAL(4,3), winsAboveReplacement DECIMAL(4,2)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
@@ -287,7 +287,7 @@ DECLARE checkPlayerTable varchar(50);
 	SET checkPlayerTable := IFNULL((SELECT p.playerId FROM players p WHERE pId = p.playerId),'0');
 	IF checkPlayerTable <> '0' THEN INSERT INTO baseballhitterstats VALUES (pId,atBats,runsScored,hits,doubles,triples,homeruns,
 		runsBattedIn, stolenBases,caughtStealing,walksDrawn,strikeouts,battingAverage,onBasePercentage,
-        sluggingPercentage, onBasePlusSlugging,winsAboveReplacement);
+		sluggingPercentage, onBasePlusSlugging,winsAboveReplacement);
 	ELSE
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This player does not exist in the players table.';
 	END IF;
@@ -309,16 +309,16 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_baseball_pitcher`(
 	IN pId varchar(20), gamesPitched int(2), gamesStarted int(2), inningsPitched DECIMAL(4,1), hitsAllowed int(3),
-    runsGivenUp int(3), earnedRuns int(3), walksAllowed int(3), strikeouts int(3), wins int(2), losses int(2),
-    saves int(2), blownSaves int(2), walksPlusHitsAllowedPerInningsPitched DECIMAL(3,2), earnedRunAverage DECIMAL(3,2),
-    winsAboveReplacement DECIMAL(4,2)
+	runsGivenUp int(3), earnedRuns int(3), walksAllowed int(3), strikeouts int(3), wins int(2), losses int(2),
+	saves int(2), blownSaves int(2), walksPlusHitsAllowedPerInningsPitched DECIMAL(3,2), earnedRunAverage DECIMAL(3,2),
+	winsAboveReplacement DECIMAL(4,2)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
 
 	SET checkPlayerTable := IFNULL((SELECT p.playerId FROM players p WHERE pId = p.playerId),'0');
 	IF checkPlayerTable <> '0' THEN INSERT INTO baseballpitcherstats VALUES (pId,gamesPitched,gamesStarted,inningsPitched,hitsAllowed,runsGivenUp,earnedRuns,
-			walksAllowed,strikeouts,wins,losses,saves,blownSaves,walksPlusHitsAllowedperInningsPitched,earnedRunAverage,winsAboveReplacement);
+		walksAllowed,strikeouts,wins,losses,saves,blownSaves,walksPlusHitsAllowedperInningsPitched,earnedRunAverage,winsAboveReplacement);
 	ELSE
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This player does not exist in the players table.';
 	END IF;
@@ -340,8 +340,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_basketball_player`(
 	IN  pId varchar(20), gamesPlayed int(2), playerEfficiencyRating DECIMAL(3,1), ppg DECIMAL(3,1),
-    rpg DECIMAL(3,1), apg DECIMAL(3,1), spg DECIMAL(3,1), bpg DECIMAL(3,1),
-    fieldGoalPercentage DECIMAL (4,3), trueShootingPercentage DECIMAL(4,3), usagePercentage DECIMAL(3,1), valueOverReplacementPlayer DECIMAL(2,1)
+	rpg DECIMAL(3,1), apg DECIMAL(3,1), spg DECIMAL(3,1), bpg DECIMAL(3,1),
+	fieldGoalPercentage DECIMAL (4,3), trueShootingPercentage DECIMAL(4,3), usagePercentage DECIMAL(3,1), valueOverReplacementPlayer DECIMAL(2,1)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
@@ -370,7 +370,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_football_defensive_player`(
 	IN 	pId varchar(20), approximateValue int(2), totalTackles int(3), assistedTackles int(3), sacks int(2),
-    passesDefended int(2), interceptions int(2), forcedFumbles int(2), fumblesRecovered int(2), defensiveTD int(1)
+	passesDefended int(2), interceptions int(2), forcedFumbles int(2), fumblesRecovered int(2), defensiveTD int(1)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
@@ -399,7 +399,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_football_offensive_lineman`(
 	IN 	pId varchar(20), approximateValue int(2), sacksAllowed int(2), qbHits int(2), qbHurries int(2),
-    penaltiesCommitted int(2), penaltiesAccepted int(2)
+	penaltiesCommitted int(2), penaltiesAccepted int(2)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
@@ -428,8 +428,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_football_skill_position_player`(
 	IN pId varchar(20), approximateValue int(2), passingYards int(4), passingTD int(2), yardsPerCompletion DECIMAL(3,1), yardsPerAttempt DECIMAL(3,1),
-    completionPercentage DECIMAL(3,1), rushingAttempts int(3), rushingYards int(4), rushingTD int(2), targets int(3), receptions int(3), receivingYards int(4),
-    receivingTD int(2), fumbles int(2), interceptions int(2)
+	completionPercentage DECIMAL(3,1), rushingAttempts int(3), rushingYards int(4), rushingTD int(2), targets int(3), receptions int(3), receivingYards int(4),
+	receivingTD int(2), fumbles int(2), interceptions int(2)
 )
 BEGIN
 DECLARE checkPlayerTable varchar(50);
@@ -504,7 +504,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_baseball_hitter`(
 BEGIN
 	SELECT p.playerName, p.pos, bh.* -- bh = baseball hitter
 	FROM players p JOIN baseballhitterstats bh ON p.playerId = bh.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
 END ;;
 DELIMITER ;
@@ -528,7 +528,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_baseball_pitcher`(
 BEGIN
 	SELECT p.playerName, p.pos, bp.* -- bp = baseball pitcher
 	FROM players p JOIN baseballpitcherstats bp ON p.playerId = bp.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
 END ;;
 DELIMITER ;
@@ -552,7 +552,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_basketball_player`(
 BEGIN
 	SELECT p.playerName, p.pos, bball.* -- bball = basketball
 	FROM players p JOIN basketballplayerstats bball ON p.playerId = bball.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
 END ;;
 DELIMITER ;
@@ -576,7 +576,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_defensive_player`(
 BEGIN
 	SELECT p.playerName, p.pos, fd.* -- fd = football defensive player
 	FROM players p JOIN footballdefensiveplayerstats fd ON p.playerId = fd.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
 END ;;
 DELIMITER ;
@@ -600,7 +600,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_offensive_lineman`(
 BEGIN
 	SELECT p.playerName, p.pos, fol.* -- fs = football skill position player
 	FROM players p JOIN footballoffensivelinestats fol ON p.playerId = fol.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
 END ;;
 DELIMITER ;
@@ -624,8 +624,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_skill_position_player`
 BEGIN
 	SELECT p.playerName, p.pos, fs.* -- fs = football skill position player
 	FROM players p JOIN footballoffensiveplayerstats fs ON p.playerId = fs.playerId
-    WHERE pName = p.playerName AND sportName = p.sport
+	WHERE pName = p.playerName AND sportName = p.sport
 	ORDER BY p.playerName; 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_players_in_sport` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_in_sport`(
+	IN sport char(3)
+)
+BEGIN
+	SELECT p.playerId FROM players p WHERE sport = p.sport;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -684,4 +705,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-03 20:29:04
+-- Dump completed on 2016-12-04 21:30:18
