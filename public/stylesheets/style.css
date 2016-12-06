@@ -7,10 +7,14 @@ a {
   color: #00B7FF;
 }
 
-span#playerList, span#getPlayerButton {
+#subHeader {
+  width: 75%;
+}
+
+span#getPlayerList, span#getPlayerButton {
   display: none;
 }
 
-#getPlayer, #addPlayer, #updatePlayer, #deletePlayer {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu {
   display: none;
 }
