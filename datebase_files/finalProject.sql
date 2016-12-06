@@ -2,9 +2,9 @@
 Elias Elgarten & Kenneth Staley Jr
 SQL Script for CS3200 Database Design Final Project (Player Value Tool)
 */
-DROP DATABASE if exists finalProject;
-CREATE DATABASE finalProject;
-USE finalProject;
+DROP DATABASE if exists playerValueTool;
+CREATE DATABASE playerValueTool;
+USE playerValueTool;
 
 CREATE TABLE players
 (
@@ -346,10 +346,10 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS get_player_from_players_table;
+DROP PROCEDURE IF EXISTS get_player;
 DELIMITER $$
 
-CREATE PROCEDURE get_player_from_players_table
+CREATE PROCEDURE get_player
 (
 	IN pId varchar(30)
 )

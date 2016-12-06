@@ -1,8 +1,9 @@
-CREATE DATABASE  IF NOT EXISTS `finalproject` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `finalproject`;
+DROP DATABASE IF EXISTS `playervaluetool`;
+CREATE DATABASE  IF NOT EXISTS `playervaluetool` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `playervaluetool`;
 -- MySQL dump 10.13  Distrib 5.7.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: finalproject
+-- Host: localhost    Database: playervaluetool
 -- ------------------------------------------------------
 -- Server version	5.7.16-log
 
@@ -262,7 +263,7 @@ INSERT INTO `players` VALUES ('Adrian Beltre','ABelt00','3B','MLB','TEX',1800000
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'finalproject'
+-- Dumping routines for database 'playervaluetool'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `add_baseball_hitter` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -488,7 +489,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_players_in_sport` */;
+/*!50003 DROP PROCEDURE IF EXISTS `get_player` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -498,28 +499,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_in_sport`(
-	IN sport char(3)
-)
-BEGIN
-	SELECT * FROM players p WHERE sport = p.sport;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_player_from_players_table` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_player_from_players_table`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_player`(
 	IN pId varchar(30)
 )
 BEGIN
@@ -544,6 +524,27 @@ BEGIN
     EXECUTE stmt;
 	DEALLOCATE PREPARE stmt; 
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_players_in_sport` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_in_sport`(
+	IN sport char(3)
+)
+BEGIN
+	SELECT * FROM players p WHERE sport = p.sport;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -602,4 +603,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-06 18:04:48
+-- Dump completed on 2016-12-06 18:16:01
