@@ -151,21 +151,6 @@ CREATE TABLE baseballPitcherStats
 -- Procedures
 
 -- Hitters
-DROP PROCEDURE IF EXISTS get_baseball_hitter;
-DELIMITER $$
-
-CREATE PROCEDURE get_baseball_hitter
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bh.* -- bh = baseball hitter
-	FROM players p JOIN baseballhitterstats bh ON p.playerId = bh.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_baseball_hitter;
 DELIMITER $$
 
@@ -191,21 +176,6 @@ END$$
 DELIMITER ;
 
 -- Pitcher
-DROP PROCEDURE IF EXISTS get_baseball_pitcher;
-DELIMITER $$
-
-CREATE PROCEDURE get_baseball_pitcher
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bp.* -- bp = baseball pitcher
-	FROM players p JOIN baseballpitcherstats bp ON p.playerId = bp.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_baseball_pitcher;
 DELIMITER $$
 
@@ -229,21 +199,6 @@ END$$
 DELIMITER ;
 
 -- Basketball
-DROP PROCEDURE IF EXISTS get_basketball_player;
-DELIMITER $$
-
-CREATE PROCEDURE get_basketball_player
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bball.* -- bball = basketball
-	FROM players p JOIN basketballplayerstats bball ON p.playerId = bball.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_basketball_player;
 DELIMITER $$
 
@@ -266,21 +221,6 @@ END$$
 DELIMITER ;
 
 -- Football skill position players (offense)
-DROP PROCEDURE IF EXISTS get_football_skill_position_player;
-DELIMITER $$
-
-CREATE PROCEDURE get_football_skill_position_player
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fs.* -- fs = football skill position player
-	FROM players p JOIN footballoffensiveplayerstats fs ON p.playerId = fs.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_football_skill_position_player;
 DELIMITER $$
 
@@ -303,21 +243,6 @@ END$$
 DELIMITER ;
 
 -- Football offensive lineman
-DROP PROCEDURE IF EXISTS get_football_offensive_lineman;
-DELIMITER $$
-
-CREATE PROCEDURE get_football_offensive_lineman
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fol.* -- fs = football skill position player
-	FROM players p JOIN footballoffensivelinestats fol ON p.playerId = fol.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_football_offensive_lineman;
 DELIMITER $$
 
@@ -339,21 +264,6 @@ END$$
 DELIMITER ;
 
 -- Football defensive players
-DROP PROCEDURE IF EXISTS get_football_defensive_player;
-DELIMITER $$
-
-CREATE PROCEDURE get_football_defensive_player
-(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fd.* -- fd = football defensive player
-	FROM players p JOIN footballdefensiveplayerstats fd ON p.playerId = fd.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS add_football_defensive_player;
 DELIMITER $$
 
@@ -432,6 +342,38 @@ CREATE PROCEDURE get_players_in_sport
 	IN sport char(3)
 )
 BEGIN
-	SELECT p.playerId FROM players p WHERE sport = p.sport;
+	SELECT * FROM players p WHERE sport = p.sport;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_player_from_players_table;
+DELIMITER $$
+
+CREATE PROCEDURE get_player_from_players_table
+(
+	IN pId varchar(30)
+)
+BEGIN
+	DECLARE sportName char(3);
+    DECLARE playerPosition char(3);
+    DECLARE tableName varchar(40);
+    
+    SET @sportName = (SELECT p.sport FROM players p WHERE pId = p.playerId ORDER BY p.playerName);
+    SET @playerPosition = (SELECT p.pos FROM players p WHERE pId = p.playerId ORDER BY p.playerName);
+    
+    IF @sportName = 'NBA' THEN SET @tableName = 'basketballplayerstats';
+    ELSEIF @sportName = 'MLB' AND (@playerPosition = 'SP' OR @playerPosition = 'RP') THEN SET @tableName = 'baseballpitcherstats';
+    ELSEIF @sportName = 'MLB' THEN SET @tableName = 'baseballhitterstats';
+    ELSEIF @sportName = 'NFL' AND (@playerPosition = 'QB' OR @playerPosition = 'RB' OR @playerPosition = 'WR' OR @playerPosition = 'TE') THEN SET @tableName = 'footballoffensiveplayerstats';
+    ELSEIF @sportName = 'NFL' AND (@playerPosition = 'G' OR @playerPosition = 'T' OR @playerPosition = 'C') THEN SET @tableName = 'footballoffensivelinestats';
+    ELSEIF @sportName = 'NFL' THEN SET @tableName = 'footballdefensiveplayerstats';
+    ELSE SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This sport or player does not exist.';
+    END IF;
+    
+    SET @t1 := CONCAT("SELECT * FROM ",@tableName," WHERE ","'",pId,"'"," = ",@tableName,".playerId");
+    PREPARE stmt FROM @t1;
+    EXECUTE stmt;
+	DEALLOCATE PREPARE stmt; 
+
 END$$
 DELIMITER ;
