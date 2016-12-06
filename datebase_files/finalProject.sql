@@ -417,7 +417,7 @@ DROP PROCEDURE IF EXISTS update_players_salary;
 DELIMITER $$
 CREATE PROCEDURE update_players_salary
 (
-	IN pId varchar(20), newSalary char(3)
+	IN pId varchar(20), newSalary int(10)
 )
 BEGIN
 	UPDATE players SET players.salary = newSalary WHERE pId = players.playerId;
