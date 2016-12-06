@@ -138,3 +138,4 @@ There are procedures in place to get a player from the players table as well as 
 - get_football_offensive_lineman
 - get_football_skill_position_player
 - get_players_in_sport
+  - sportName
