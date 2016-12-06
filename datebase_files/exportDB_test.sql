@@ -488,150 +488,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_baseball_hitter` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_baseball_hitter`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bh.* -- bh = baseball hitter
-	FROM players p JOIN baseballhitterstats bh ON p.playerId = bh.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_baseball_pitcher` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_baseball_pitcher`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bp.* -- bp = baseball pitcher
-	FROM players p JOIN baseballpitcherstats bp ON p.playerId = bp.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_basketball_player` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_basketball_player`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, bball.* -- bball = basketball
-	FROM players p JOIN basketballplayerstats bball ON p.playerId = bball.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_football_defensive_player` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_defensive_player`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fd.* -- fd = football defensive player
-	FROM players p JOIN footballdefensiveplayerstats fd ON p.playerId = fd.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_football_offensive_lineman` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_offensive_lineman`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fol.* -- fs = football skill position player
-	FROM players p JOIN footballoffensivelinestats fol ON p.playerId = fol.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `get_football_skill_position_player` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_football_skill_position_player`(
-	IN pName varchar(30), sportName char(3)
-)
-BEGIN
-	SELECT p.playerName, p.pos, fs.* -- fs = football skill position player
-	FROM players p JOIN footballoffensiveplayerstats fs ON p.playerId = fs.playerId
-	WHERE pName = p.playerName AND sportName = p.sport
-	ORDER BY p.playerName; 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `get_players_in_sport` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -646,7 +502,48 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_in_sport`(
 	IN sport char(3)
 )
 BEGIN
-	SELECT p.playerId FROM players p WHERE sport = p.sport;
+	SELECT * FROM players p WHERE sport = p.sport;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_player_from_players_table` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_player_from_players_table`(
+	IN pId varchar(30)
+)
+BEGIN
+	DECLARE sportName char(3);
+    DECLARE playerPosition char(3);
+    DECLARE tableName varchar(40);
+    
+    SET @sportName = (SELECT p.sport FROM players p WHERE pId = p.playerId ORDER BY p.playerName);
+    SET @playerPosition = (SELECT p.pos FROM players p WHERE pId = p.playerId ORDER BY p.playerName);
+    
+    IF @sportName = 'NBA' THEN SET @tableName = 'basketballplayerstats';
+    ELSEIF @sportName = 'MLB' AND (@playerPosition = 'SP' OR @playerPosition = 'RP') THEN SET @tableName = 'baseballpitcherstats';
+    ELSEIF @sportName = 'MLB' THEN SET @tableName = 'baseballhitterstats';
+    ELSEIF @sportName = 'NFL' AND (@playerPosition = 'QB' OR @playerPosition = 'RB' OR @playerPosition = 'WR' OR @playerPosition = 'TE') THEN SET @tableName = 'footballoffensiveplayerstats';
+    ELSEIF @sportName = 'NFL' AND (@playerPosition = 'G' OR @playerPosition = 'T' OR @playerPosition = 'C') THEN SET @tableName = 'footballoffensivelinestats';
+    ELSEIF @sportName = 'NFL' THEN SET @tableName = 'footballdefensiveplayerstats';
+    ELSE SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This sport or player does not exist.';
+    END IF;
+    
+    SET @t1 := CONCAT("SELECT * FROM ",@tableName," WHERE ","'",pId,"'"," = ",@tableName,".playerId");
+    PREPARE stmt FROM @t1;
+    EXECUTE stmt;
+	DEALLOCATE PREPARE stmt; 
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -664,7 +561,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_players_salary`(
-	IN pId varchar(20), newSalary char(3)
+	IN pId varchar(20), newSalary int(10)
 )
 BEGIN
 	UPDATE players SET players.salary = newSalary WHERE pId = players.playerId;
@@ -705,4 +602,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-04 21:30:18
+-- Dump completed on 2016-12-06 18:04:48
