@@ -3,47 +3,80 @@
  */
 
 var players = [];
+var currentAction = "";
 
-var showGetPlayer = function() {
-    $('#getPlayer').show();
-    $('#addPlayer').hide();
-    $('#updatePlayer').hide();
-    $('#deletePlayer').hide();
-};
+/* --- Functions to get and submit data to API */
 
-var showAddPlayer = function() {
-    $('#getPlayer').hide();
-    $('#addPlayer').show();
-    $('#updatePlayer').hide();
-    $('#deletePlayer').hide();
-};
-
-var showUpdatePlayer = function () {
-    $('#getPlayer').hide();
-    $('#addPlayer').hide();
-    $('#updatePlayer').show();
-    $('#deletePlayer').hide();
-};
-
-var showDeletePlayer = function () {
-    $('#getPlayer').hide();
-    $('#addPlayer').hide();
-    $('#updatePlayer').hide();
-    $('#deletePlayer').show();
-};
-
-var getPlayers = function(sport) {
-    console.log('getPlayers');
-    console.log(sport);
+/* Gets the players for a given sport, to be used in dropdown display */
+var getSportPlayers = function (sport) {
     $.getJSON('/getSportPlayers/' + sport).done(function (data) {
         players = [];
         data[0].forEach(function (item) {
             players.push(item);
         });
-        clearDropdown('player');
-        populateDropdown(players, 'player');
+
+        var element = currentAction === "get" ? 'getPlayer' : 'deletePlayer';
+        showDropdown(players, element);
     });
 };
+
+/*var getPlayer = function (playerId) {
+
+};
+
+var deletePlayer = function (playerId) {
+
+};*/
+
+/* --- Control page elements ---*/
+
+var resetPlayers = function () {
+    players = [];
+}
+
+var showGetPlayer = function() {
+    currentAction = "get";
+    resetPlayers();
+    toggleShowPlayerList();
+    $('#getPlayerMenu').show();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').hide();
+};
+
+var showAddPlayer = function() {
+    currentAction = "add";
+    resetPlayers();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').show();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').hide();
+};
+
+var showUpdatePlayer = function () {
+    currentAction = "update";
+    resetPlayers();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').show();
+    $('#deletePlayerMenu').hide();
+};
+
+var showDeletePlayer = function () {
+    currentAction = "delete";
+    resetPlayers();
+    toggleShowPlayerList();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').show();
+};
+
+// Gets the selected item from a dropdown list
+var getActiveDropdownElement = function (elementName) {
+    var result = $("select[name=" + elementName +"]").val();
+    return result;
+}
 
 var clearDropdown = function(elementId) {
     var dropdown = document.getElementById(elementId);
@@ -62,30 +95,38 @@ var populateDropdown = function (list, elementId) {
     }
 };
 
-$(document).ready(function () {
-    var activeSport = 'none';
+var showDropdown = function (list, elementId) {
+    clearDropdown(elementId);
+    populateDropdown(list, elementId);
+}
 
-    var getActiveSport = function () {
-        return $('select[name=selectSport]').val();
+var activeSport = 'none';
+
+var toggleShowPlayerList = function () {
+    var action = currentAction;
+    var element = action + 'PlayerSelectSport';
+    activeSport = getActiveDropdownElement(element);
+    if (activeSport !== 'none') {
+        $('#' + action + 'PlayerList').show();
+        $('#' + action + 'PlayerButton').show();
     }
+    else {
+        $('#' + action + 'PlayerList').hide();
+        $('#' + action + 'PlayerButton').hide();
+    }
+}
 
-    $('#sport').change(function () {
-        activeSport = getActiveSport();
-        if (activeSport !== 'none') {
-            $('#playerList').show();
-            $('#getPlayerButton').show();
-        }
-        else {
-            $('#playerList').hide();
-            $('#getPlayerButton').hide();
-        }
+$(document).ready(function () {
+
+    // Call getSportPlayers when the sport is changed in the dropdown menu
+    $('.sport').change(function () {
+        toggleShowPlayerList();
 
         if (activeSport !== 'none') {
-            getPlayers(activeSport);
+            // also check if we're in add or delete
+            getSportPlayers(activeSport);
         }
     });
 });
 
 console.log(players);
-
-
