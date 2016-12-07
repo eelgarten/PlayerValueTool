@@ -16,10 +16,10 @@ a {
   width: 75%;
 }
 
-span#getPlayerList, span#getPlayerButton {
+#getPlayerList, #getPlayerButton {
   display: none;
 }
 
-#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #queryResultsDisplay {
   display: none;
 }

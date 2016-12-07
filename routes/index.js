@@ -28,7 +28,7 @@ router.get('/getPlayer/:playerId', function(req, res) {
     var playerId = req.params.playerId;
 
     // calls the "get_player" db procedure
-    var queryString = "CALL get_player (?)";
+    var queryString = "CALL get_player_from_players_table (?)";
     connection.query(queryString, [playerId], function(err, results, fields) {
         if (err) {
             return res.send('An error occurred:' + err);

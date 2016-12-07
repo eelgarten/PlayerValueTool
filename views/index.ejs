@@ -21,7 +21,6 @@
 </section>
 
 <div id="getPlayerMenu" class="form-class">
-    <form>
         <section>
             <p>Get Player Info</p>
             <p>
@@ -44,11 +43,10 @@
         </section>
 
         <section>
-            <span class="playerButton">
-            <button name="getPlayerSubmit">Get player</button>
+            <span id="getPlayerButton">
+            <button name="getPlayerSubmit" onclick="submitGetPlayer('selectGetPlayer')">Get player</button>
                 </span>
         </section>
-    </form>
 </div>
 
 <div id="deletePlayerMenu" class="form-class">
@@ -75,7 +73,7 @@
         </section>
 
         <section>
-            <span class="playerButton">
+            <span id="deletePlayerButton">
             <button name="deletePlayerSubmit">Delete player</button>
                 </span>
         </section>
@@ -84,6 +82,8 @@
 
 <div id="addPlayerMenu" class="form-class"><p>Add Player</p></div>
 <div id="updatePlayerMenu" class="form-class"><p>Update Player</p></div>
+
+<div id="queryResultsDisplay"><p>Results</p></div>
 
 </body>
 </html>

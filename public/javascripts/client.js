@@ -2,42 +2,77 @@
  * Created by Elias Elgarten on 12/3/2016.
  */
 
-var players = [];
+var sportPositionTypes = {
+
+    "NBA": [],
+    "MLB": [
+        {"positionType": "hitter", "displayName": "Hitter"},
+        {"positionType": "pitcher", "displayName": "Pitcher"}
+    ],
+    "NFL": {
+        "offensive": {
+            id: 1,
+            display: "Skill Position player"
+        },
+        "defensive": {
+            id: 2,
+            display: "Defensive player"
+        },
+        "offensiveLine" : {
+            id: 3,
+            display: "Offensive lineman"
+        }
+    }
+}
+
+var playerTableFields = {
+    "generalPlayer": [
+        {fieldName: "playerName", displayName: "Player name"},
+        
+    ],
+
+
+};
+
+//var players = [];
 var currentAction = "";
 
 /* --- Functions to get and submit data to API */
 
 /* Gets the players for a given sport, to be used in dropdown display */
 var getSportPlayers = function (sport) {
-    $.getJSON('/getSportPlayers/' + sport).done(function (data) {
-        players = [];
+
+    var response = $.getJSON('/getSportPlayers/' + sport).done(function (data) {
+        var returnedPlayers = [];
         data[0].forEach(function (item) {
-            players.push(item);
+            returnedPlayers.push(item);
         });
-
-        var element = currentAction === "get" ? 'getPlayer' : 'deletePlayer';
-        showDropdown(players, element);
+        return returnedPlayers;
     });
+    return response;
 };
 
-/*var getPlayer = function (playerId) {
+var getPlayerById = function (playerId) {
 
+    var response = $.getJSON('/getPlayer/' + playerId).done(function (data) {
+        var player = data[0];
+        return player;
+    });
+    return response;
 };
 
+/*
 var deletePlayer = function (playerId) {
 
 };*/
 
 /* --- Control page elements ---*/
 
-var resetPlayers = function () {
-    players = [];
-}
 
 var showGetPlayer = function() {
     currentAction = "get";
-    resetPlayers();
     toggleShowPlayerList();
+    $('#queryResultsDisplay').hide();
     $('#getPlayerMenu').show();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
@@ -46,7 +81,7 @@ var showGetPlayer = function() {
 
 var showAddPlayer = function() {
     currentAction = "add";
-    resetPlayers();
+    $('#queryResultsDisplay').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').show();
     $('#updatePlayerMenu').hide();
@@ -55,7 +90,7 @@ var showAddPlayer = function() {
 
 var showUpdatePlayer = function () {
     currentAction = "update";
-    resetPlayers();
+    $('#queryResultsDisplay').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').show();
@@ -64,8 +99,8 @@ var showUpdatePlayer = function () {
 
 var showDeletePlayer = function () {
     currentAction = "delete";
-    resetPlayers();
     toggleShowPlayerList();
+    $('#queryResultsDisplay').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
@@ -85,22 +120,26 @@ var clearDropdown = function(elementId) {
     }
 };
 
-var populateDropdown = function (list, elementId) {
+var populatePlayerDropdown = function (list, elementId) {
     for (var i = 0; i < list.length; i++) {
         var select = document.getElementById(elementId),
             opt = document.createElement("option");
-        opt.value = players[i].playerId;
-        opt.textContent = players[i].playerName + ', ' + players[i].pos;
+        opt.value = list[i].playerId;
+        opt.textContent = list[i].playerName + ', ' + list[i].pos;
         select.append(opt);
     }
 };
 
 var showDropdown = function (list, elementId) {
     clearDropdown(elementId);
-    populateDropdown(list, elementId);
+    populatePlayerDropdown(list, elementId);
 }
 
 var activeSport = 'none';
+
+var showResults = function () {
+    $('#queryResultsDisplay').show();
+}
 
 var toggleShowPlayerList = function () {
     var action = currentAction;
@@ -114,7 +153,18 @@ var toggleShowPlayerList = function () {
         $('#' + action + 'PlayerList').hide();
         $('#' + action + 'PlayerButton').hide();
     }
-}
+};
+
+var submitGetPlayer = function (playerDropdownElement) {
+    var playerId = getActiveDropdownElement(playerDropdownElement);
+    console.log(playerId);
+
+    var getPlayerByIdCall= getPlayerById(playerId);
+    $.when(getPlayerByIdCall).done(function (player) {
+        showResults();
+
+    })
+};
 
 $(document).ready(function () {
 
@@ -124,9 +174,13 @@ $(document).ready(function () {
 
         if (activeSport !== 'none') {
             // also check if we're in add or delete
-            getSportPlayers(activeSport);
+            var playerCall = getSportPlayers(activeSport);
+            $.when(playerCall).done(function (players) {
+                var element = currentAction + 'Player';
+                showDropdown(players[0], element);
+            });
+
         }
     });
-});
 
-console.log(players);
+});
