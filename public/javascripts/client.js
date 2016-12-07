@@ -1,7 +1,10 @@
 /**
  * Created by Elias Elgarten on 12/3/2016.
  */
-var sportPositionTypes = {
+
+/* --- Config vars --- */
+
+const sportPositionTypes = {
 
     "NBA": [],
     "MLB": [
@@ -15,158 +18,109 @@ var sportPositionTypes = {
     ]
 };
 
-var playerTableFields = {
-    "generalPlayer": [
-        {"fieldName": "playerName", "displayName": "Player name"},
-        {"fieldName": "playerPosition", "displayName": "Position"},
-        {"fieldName": "playerSport", "displayName": "Sport"},
-        {"fieldName": "playerTeam", "displayName": "Team"},
-        {"fieldName": "playerSalary", "displayName": "Salary"}
-    ]
+const playerTableFields = {
+    "generalPlayer": {
+        "playerName": "Player Name",
+        "pos": "Position",
+        "sport": "Sport",
+        "team": "Team",
+        "salary": "Salary"
+    },
+    "mlbHitterPlayer": {
+        "atBats": "AB",
+        "runsScored": "R",
+        "hits": "H",
+        "doubles": "2B",
+        "triples": "3B",
+        "homeruns": "HR",
+        "runsBattedIn": "RBI",
+        "stolenBases": "SB",
+        "caughtStealing": "CS",
+        "walksDrawn": "BB",
+        "strikeouts": "SO",
+        "battingAverage": "AVG",
+        "onBasePercentage": "OBP",
+        "sluggingPercentage": "SLG",
+        "onBasePlusSlugging": "OPS",
+        "winsAboveReplacement": "WAR"
+    },
+    "mlbPitcherPlayer": {
+        "gamesPitched": "GP",
+        "gamesStarted": "GS",
+        "inningsPitched": "IP",
+        "hitsAllowed": "H",
+        "runsGivenUp": "R",
+        "earnedRuns": "ER",
+        "walksAllowed": "BB",
+        "strikeouts": "SO",
+        "wins": "W",
+        "losses": "L",
+        "saves": "SV",
+        "blownSaves": "BS",
+        "walksPlusHitsAllowedPerInningsPitched": "WHIP",
+        "earnedRunAverage": "ERA",
+        "winsAboveReplacement": "WAR"
+    },
+    "nbaPlayer": {
+        "gamesPlayed": "G",
+        "playerEfficiencyRating": "PER",
+        "pointsPerGame": "PPG",
+        "reboundsPerGame": "RPG",
+        "assistsPerGame": "APG",
+        "stealsPerGame": "SPG",
+        "blocksPerGame": "BPG",
+        "fieldGoalPercentage": "FG%",
+        "trueShootingPercentage": "TS%",
+        "usagePercentage": "USG%",
+        "valueOverReplacementPlayer": "VORP"
+    },
+    "nflSkillPositionPlayer": {
+        "approximateValue": "Approximate Value",
+        "passingYards": "Passing Yards",
+        "passingTD": "Passing TDs",
+        "yardsPerCompletion": "Yards Per Completion",
+        "yardsPerAttempt": "Yards Per Attempt",
+        "completionPercentage": "Completion Percentage",
+        "rushingAttempts": "Rushing Attempts",
+        "rushingYards": "Rushing Yards",
+        "rushingTD": "Rushing TDs",
+        "targets": "Targets",
+        "receptions": "Receptions",
+        "receivingYards": "Receiving Yards",
+        "receivingTD": "Receiving TDs",
+        "fumbles": "Fumbles",
+        "interceptions": "Interceptions Thrown"
+    },
+    "nflOffensiveLinePlayer": {
+        "approximateValue": "Approximate Value",
+        "sacksAllowed": "Sacks Allowed",
+        "qbHits": "QB Hits Allowed",
+        "qbHurries": "QB Hurries Allowed",
+        "penaltiesCommitted": "Penalties Committed",
+        "penaltiesAccepted": "Penalties Accepted"
+    },
+    "nflDefensivePlayer": {
+        "approximateValue": "Approximate Value",
+        "totalTackles": "Total Tackles",
+        "assistedTackles": "Assisted Tackles",
+        "sacks": "Sacks",
+        "fieldName": "passesDefended",  "passesDefended": "Passes Defended",
+        "interceptions": "Interceptions",
+        "forcedFumbles": "Forced Fumbles",
+        "fumblesRecovered": "Fumbles Recovered",
+    }
 };
 
-var baseballHitterTableFields = {
-    "baseballHitter": [
-        {"fieldName": "atBats",  "displayName": "AB"},
-        {"fieldName": "runsScored",  "displayName": "R"},
-        {"fieldName": "hits",  "displayName": "H"},
-        {"fieldName": "doubles",  "displayName": "2B"},
-        {"fieldName": "triples",  "displayName": "3B"},
-        {"fieldName": "homeruns",  "displayName": "HR"},
-        {"fieldName": "runsBattedIn",  "displayName": "RBI"},
-        {"fieldName": "stolenBases",  "displayName": "SB"},
-        {"fieldName": "caughtStealing",  "displayName": "CS"},
-        {"fieldName": "walksDrawn",  "displayName": "BB"},
-        {"fieldName": "strikeouts",  "displayName": "SO"},
-        {"fieldName": "battingAverage",  "displayName": "AVG"},
-        {"fieldName": "onBasePercentage",  "displayName": "OBP"},
-        {"fieldName": "sluggingPercentage",  "displayName": "SLG"},
-        {"fieldName": "onBasePlusSlugging",  "displayName": "OPS"},
-        {"fieldName": "winsAboveReplacement",  "displayName": "WAR"}
-    ]
-};
-
-var baseballPitcherTableFields = {
-    "baseballPitcher": [
-        {"fieldName": "gamesPitched",  "displayName": "GP"},
-        {"fieldName": "gamesStarted",  "displayName": "GS"},
-        {"fieldName": "inningsPitched",  "displayName": "IP"},
-        {"fieldName": "hitsAllowed",  "displayName": "H"},
-        {"fieldName": "runsGivenUp",  "displayName": "R"},
-        {"fieldName": "earnedRuns",  "displayName": "ER"},
-        {"fieldName": "walksAllowed",  "displayName": "BB"},
-        {"fieldName": "strikeouts",  "displayName": "SO"},
-        {"fieldName": "wins",  "displayName": "W"},
-        {"fieldName": "losses",  "displayName": "L"},
-        {"fieldName": "saves",  "displayName": "SV"},
-        {"fieldName": "blownSaves",  "displayName": "BS"},
-        {"fieldName": "walksPlusHitsAllowedPerInningsPitched",  "displayName": "WHIP"},
-        {"fieldName": "earnedRunAverage",  "displayName": "ERA"},
-        {"fieldName": "winsAboveReplacement",  "displayName": "WAR"}
-    ]
-};
-
-var basketballPlayerTableFields = {
-    "basketballPlayer": [
-        {"fieldName": "gamesPlayed",  "displayName": "G"},
-        {"fieldName": "playerEfficiencyRating",  "displayName": "PER"},
-        {"fieldName": "pointsPerGame",  "displayName": "PPG"},
-        {"fieldName": "reboundsPerGame",  "displayName": "RPG"},
-        {"fieldName": "assistsPerGame",  "displayName": "APG"},
-        {"fieldName": "stealsPerGame",  "displayName": "SPG"},
-        {"fieldName": "blocksPerGame",  "displayName": "BPG"},
-        {"fieldName": "fieldGoalPercentage",  "displayName": "FG%"},
-        {"fieldName": "trueShootingPercentage",  "displayName": "TS%"},
-        {"fieldName": "usagePercentage",  "displayName": "USG%"},
-        {"fieldName": "valueOverReplacementPlayer",  "displayName": "VORP"}
-    ]
-};
-
-var footballSkillPositionPlayerFields = {
-    "skillPositionPlayer": [
-        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
-        {"fieldName": "passingYards",  "displayName": "Passing Yards"},
-        {"fieldName": "passingTD",  "displayName": "Passing TDs"},
-        {"fieldName": "yardsPerCompletion",  "displayName": "Yards Per Completion"},
-        {"fieldName": "yardsPerAttempt",  "displayName": "Yards Per Attempt"},
-        {"fieldName": "completionPercentage",  "displayName": "Completion Percentage"},
-        {"fieldName": "rushingAttempts",  "displayName": "Rushing Attempts"},
-        {"fieldName": "rushingYards",  "displayName": "Rushing Yards"},
-        {"fieldName": "rushingTD",  "displayName": "Rushing TDs"},
-        {"fieldName": "targets",  "displayName": "Targets"},
-        {"fieldName": "receptions",  "displayName": "Receptions"},
-        {"fieldName": "receivingYards",  "displayName": "Receiving Yards"},
-        {"fieldName": "receivingTD",  "displayName": "Receiving TDs"},
-        {"fieldName": "fumbles",  "displayName": "Fumbles"},
-        {"fieldName": "interceptions",  "displayName": "Interceptions Thrown"}
-    ]
-};
-
-var footballOffensiveLinemanPlayerFields = {
-    "offensiveLineman": [
-        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
-        {"fieldName": "sacksAllowed",  "displayName": "Sacks Allowed"},
-        {"fieldName": "qbHits",  "displayName": "QB Hits Allowed"},
-        {"fieldName": "qbHurries",  "displayName": "QB Hurries Allowed"},
-        {"fieldName": "penaltiesCommitted",  "displayName": "Penalties Committed"},
-        {"fieldName": "penaltiesAccepted",  "displayName": "Penalties Accepted"}
-    ]
-};
-
-var footballDefensivePlayerFields = {
-    "defensivePlayer": [
-        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
-        {"fieldName": "totalTackles",  "displayName": "Total Tackles"},
-        {"fieldName": "assistedTackles",  "displayName": "Assisted Tackles"},
-        {"fieldName": "sacks",  "displayName": "Sacks"},
-        {"fieldName": "passesDefended",  "displayName": "Passes Defended"},
-        {"fieldName": "interceptions",  "displayName": "Interceptions"},
-        {"fieldName": "forcedFumbles",  "displayName": "Forced Fumbles"},
-        {"fieldName": "fumblesRecovered",  "displayName": "Fumbles Recovered"},
-    ]
-};
-
-var nbaPositionOptions = ["PG","SG","SF","PF","C"]
-var mlbHitterPositionOptions = ["DH","C","1B","2B","3B","SS","OF"];
-var mlbPitcherPositionOptions = ["SP","RP"];
-var nflSkillPostionOptions = ["QB","RB","WR","TE"];
-var nflOffensiveLineOptions = ["C","G","T"];
-var nflDefensivePlayerOptions = ["DE","DT","DB","MLB","OLB","S"];
-
-var currentAction = "";
-
-/* --- Functions to get and submit data to API */
-
-/* Gets the players for a given sport, to be used in dropdown display */
-var getSportPlayers = function (sport) {
-
-    var response = $.getJSON('/getSportPlayers/' + sport).done(function (data) {
-        var returnedPlayers = [];
-        data[0].forEach(function (item) {
-            returnedPlayers.push(item);
-        });
-        return returnedPlayers;
-    });
-    return response;
-};
-
-var getPlayerById = function (playerId) {
-
-    var response = $.getJSON('/getPlayer/' + playerId).done(function (data) {
-        var player = data[0];
-        console.log(player);
-        return player;
-    });
-    return response;
-};
-
-/*
-var deletePlayer = function (playerId) {
-
-};*/
+const nbaPositionOptions = ["PG","SG","SF","PF","C"];
+const mlbHitterPositionOptions = ["DH","C","1B","2B","3B","SS","OF"];
+const mlbPitcherPositionOptions = ["SP","RP"];
+const nflSkillPlayerPostionOptions = ["QB","RB","WR","TE"];
+const nflOffensiveLinePlayerPositionOptions = ["C","G","T"];
+const nflDefensivePlayerPositionOptions = ["DE","DT","DB","MLB","OLB","S"];
 
 /* --- Control page elements ---*/
 
+var currentAction = "";
 
 var showGetPlayer = function() {
     currentAction = "get";
@@ -206,6 +160,8 @@ var showDeletePlayer = function () {
     $('#deletePlayerMenu').show();
 };
 
+var activeSport = 'none';
+
 // Gets the selected item from a dropdown list
 var getActiveDropdownElement = function (elementName) {
     var result = $("select[name=" + elementName +"]").val();
@@ -232,13 +188,11 @@ var populatePlayerDropdown = function (list, elementId) {
 var showDropdown = function (list, elementId) {
     clearDropdown(elementId);
     populatePlayerDropdown(list, elementId);
-}
-
-var activeSport = 'none';
+};
 
 var showResults = function () {
     $('#queryResultsDisplay').show();
-}
+};
 
 var toggleShowPlayerList = function () {
     var action = currentAction;
@@ -254,19 +208,57 @@ var toggleShowPlayerList = function () {
     }
 };
 
-var createGetPlayerResults = function (args) {
+var determinePlayerAttribute = function (player) {
+    var sport = player.sport;
+    var position = player.pos;
+    var attribute = "";
+    switch (sport) {
+        case "NBA" :
+            attribute = 'nba';
+            break;
+        case "MLB" :
+            if (mlbHitterPositionOptions.includes(position)) {
+                attribute = 'mlbHitter';
+                break;
+            } else if (mlbPitcherPositionOptions.includes(position)) {
+                attribute = 'mlbPitcher';
+                break;
+            } else {
+                console.log('error in mlb hitter');
+                break;
+            }
+        case "NFL" :
+            if (nflSkillPlayerPostionOptions.includes(position)) {
+                attribute = 'nflSkill';
+                break;
+            } else if (nflDefensivePlayerPositionOptions.includes(position)) {
+                attribute = 'nflDefensive';
+                break;
+            } else if (nflOffensiveLinePlayerPositionOptions.includes(position)) {
+                attribute = 'nflOffensiveLine';
+                break;
+            }
+    }
+    console.log(attribute);
+    return attribute;
+}
+
+var createGetPlayerResults = function (player) {
+    var attribute = determinePlayerAttribute(player) + 'Player';
+    var tableFields = $.extend(playerTableFields['generalPlayer'] ,playerTableFields[attribute]);
+
     var tableHead = "<tr>";
-    for (var key in args) {
-        if (args.hasOwnProperty(key)) {
-            tableHead += "<th>" + key + "</th>";
+    for (var key in player) {
+        if (player.hasOwnProperty(key) && key !== 'playerId') {
+            tableHead += "<th>" + tableFields[key] + "</th>";
         }
     }
     tableHead += "</tr>";
 
     var tableBody = "<tr>";
-    for (var key in args) {
-        if (args.hasOwnProperty(key)) {
-            tableBody += "<td>" + args[key] + "</td>";
+    for (var key in player) {
+        if (player.hasOwnProperty(key) && key !== 'playerId') {
+            tableBody += "<td>" + player[key] + "</td>";
         }
     }
     tableBody += "</tr>";
@@ -278,21 +270,67 @@ var createGetPlayerResults = function (args) {
 
 var submitGetPlayer = function (playerDropdownElement) {
     var playerId = getActiveDropdownElement(playerDropdownElement);
-    console.log(playerId);
 
+    // make an asynchronous call and wait for it to finish before continuing
     var getPlayerByIdCall = getPlayerById(playerId);
     $.when(getPlayerByIdCall).done(function (player) {
-        console.log('in here');
         showResults();
-        console.log(player[0][0]);
         createGetPlayerResults(player[0][0]);
     });
 };
+
+var submitDeletePlayer = function (playerDropdownElement) {
+    var playerId = getActiveDropdownElement(playerDropdownElement);
+
+    var deletePlayerByIdCall = deletePlayerById(playerId);
+    $.when(deletePlayerByIdCall).done(function () {
+        showResults();
+        $('#nonTableResults').html("Player deleted successfully");
+        $('#nonTableResults').show();
+    });
+}
+
+/* --- Functions to get and submit data to API */
+
+/* Gets the players for a given sport, to be used in dropdown display */
+var getSportPlayers = function (sport) {
+
+    var response = $.getJSON('/getSportPlayers/' + sport).done(function (data) {
+        var returnedPlayers = [];
+        data[0].forEach(function (item) {
+            returnedPlayers.push(item);
+        });
+        return returnedPlayers;
+    });
+    return response;
+};
+
+var getPlayerById = function (playerId) {
+
+    var response = $.getJSON('/getPlayer/' + playerId).done(function (data) {
+        var player = data[0];
+        console.log(player);
+        return player;
+    });
+    return response;
+};
+
+var deletePlayerById = function (playerId) {
+
+    var result = $.getJSON('/deletePlayer/' + playerId).done(function (response) {
+        console.log(response);
+    });
+
+    return result;
+
+}
+
 
 $(document).ready(function () {
 
     // Call getSportPlayers when the sport is changed in the dropdown menu
     $('.sport').change(function () {
+        $('#nonTableResults').hide();
         toggleShowPlayerList();
 
         if (activeSport !== 'none') {
@@ -305,5 +343,7 @@ $(document).ready(function () {
 
         }
     });
+
+    // add a function to hide the "Deleted player" success message
 
 });

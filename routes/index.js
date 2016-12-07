@@ -7,6 +7,10 @@ router.get('/', function(req, res) {
     res.render('index', { title: 'Player Value Tool' });
 });
 
+/*router.post('/', function(req, res) {
+    res.render('index', { title: 'Player Value Tool'});
+});*/
+
 /* GET /getSportPlayers/:sport */
 // Gets all the players that play the given sport
 router.get('/getSportPlayers/:sport', function(req, res) {
@@ -38,15 +42,16 @@ router.get('/getPlayer/:playerId', function(req, res) {
     });
 });
 
-router.post('/deletePlayer/:playerId', function(req, res) {
+
+router.get('/deletePlayer/:playerId', function(req, res, next) {
     var playerId = req.params.playerId;
 
-    var queryString = "CALL delete_player(?)";
+    var queryString = "CALL delete_player (?)";
     connection.query(queryString, [playerId], function(err, results, fields) {
         if (err) {
-            return res.send('An error occurred:' + err);
+            res.sendStatus(404);
         } else {
-            return res.json(results);
+            res.status(200).send({message: "success"});
         }
     });
 });

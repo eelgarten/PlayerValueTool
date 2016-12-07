@@ -50,7 +50,6 @@
 </div>
 
 <div id="deletePlayerMenu" class="form-class">
-    <form>
         <section>
             <p>Delete Player Info</p>
             <p>
@@ -74,23 +73,24 @@
 
         <section>
             <span id="deletePlayerButton">
-            <button name="deletePlayerSubmit">Delete player</button>
+            <button name="deletePlayerSubmit" onclick="submitDeletePlayer('selectDeletePlayer')">Delete player</button>
                 </span>
         </section>
-    </form>
 </div>
 
 <div id="addPlayerMenu" class="form-class"><p>Add Player</p></div>
 <div id="updatePlayerMenu" class="form-class"><p>Update Player</p></div>
 
 <div id="queryResultsDisplay" class="queryResults">
-    <p class="tableTitle">Player Stats</p>
+    <div id="nonTableResults"><p id="nonTableResult"></p></div>
+    <p id="tableTitle">Player Stats</p>
     <div id="table-wrapper">
         <div id="table-scroll">
             <table id="displayResultsTable" class="gridtable">
             </table>
         </div>
     </div>
+
 </div>
 
 </body>
