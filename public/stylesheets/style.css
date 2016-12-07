@@ -1,6 +1,11 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #dbdbdb;
+}
+
+h1 {
+  text-shadow: 1px 1px #00B7F0;
 }
 
 a {
