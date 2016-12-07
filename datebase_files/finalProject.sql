@@ -293,7 +293,24 @@ CREATE PROCEDURE add_to_players_table
 	IN pName varchar(30), pID varchar(20), pos char(3), sportName char(3), teamName char(3), salary int(10)
 )
 BEGIN 
-	INSERT INTO players VALUES (pName,pID,pos,sportName,teamName,salary);
+    DECLARE insertBool bool;
+    DECLARE idDigit varchar(2);
+    DECLARE CONTINUE HANDLER FOR 1062
+    SELECT CONCAT('Duplicate value ',@playerId,' found.') as msg;
+
+    SET @idDigit = 00;
+    SET @playerId := CONCAT(pId,00);
+    SET @insertBool = FALSE;
+
+    WHILE @insertBool = FALSE DO
+
+        INSERT INTO players VALUES (pName,@playerId,pos,sportName,teamName,salary);
+        IF
+            (SELECT ROW_COUNT() = 1) THEN SET @insertBool = TRUE;
+        ELSE
+            SET @playerId := CONCAT(pId,@idDigit := @idDigit + 1);
+        END IF;
+     END WHILE;
 END$$
 DELIMITER ;
 
