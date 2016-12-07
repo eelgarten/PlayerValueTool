@@ -6,15 +6,15 @@ var sportPositionTypes = {
 
     "NBA": [],
     "MLB": [
-        {"positionType": "hitter", "displayName": "Hitter"},
-        {"positionType": "pitcher", "displayName": "Pitcher"}
+        {"positionType": "hitter","displayName": "Hitter"},
+        {"positionType": "pitcher","displayName": "Pitcher"}
     ],
     "NFL": [
-        {"positionType": "kill position player", "displayName": "Skill Position Player"},
-        {"positionType": "defensive player", "displayName": "Defensive Player"},
-        {"positionType": "offensive line", "displayName": "Offensive Lineman"}
+        {"positionType": "skill position player","displayName": "Skill Position Player"},
+        {"positionType": "defensive player","displayName": "Defensive Player"},
+        {"positionType": "offensiveLineman","displayName": "Offensive Lineman"}
     ]
-}
+};
 
 var playerTableFields = {
     "generalPlayer": [
@@ -79,15 +79,60 @@ var basketballPlayerTableFields = {
         {"fieldName": "fieldGoalPercentage",  "displayName": "FG%"},
         {"fieldName": "trueShootingPercentage",  "displayName": "TS%"},
         {"fieldName": "usagePercentage",  "displayName": "USG%"},
-        {"fieldName": "valueOverReplacementPlayer",  "displayName": "VORP"},
-
+        {"fieldName": "valueOverReplacementPlayer",  "displayName": "VORP"}
     ]
 };
 
-var footballSkillPositionPlayerFields = {};
-var footballOffensiveLinemanPlayerFields = {};
-var footballDefensivePlayerFields = {};
+var footballSkillPositionPlayerFields = {
+    "skillPositionPlayer": [
+        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
+        {"fieldName": "passingYards",  "displayName": "Passing Yards"},
+        {"fieldName": "passingTD",  "displayName": "Passing TDs"},
+        {"fieldName": "yardsPerCompletion",  "displayName": "Yards Per Completion"},
+        {"fieldName": "yardsPerAttempt",  "displayName": "Yards Per Attempt"},
+        {"fieldName": "completionPercentage",  "displayName": "Completion Percentage"},
+        {"fieldName": "rushingAttempts",  "displayName": "Rushing Attempts"},
+        {"fieldName": "rushingYards",  "displayName": "Rushing Yards"},
+        {"fieldName": "rushingTD",  "displayName": "Rushing TDs"},
+        {"fieldName": "targets",  "displayName": "Targets"},
+        {"fieldName": "receptions",  "displayName": "Receptions"},
+        {"fieldName": "receivingYards",  "displayName": "Receiving Yards"},
+        {"fieldName": "receivingTD",  "displayName": "Receiving TDs"},
+        {"fieldName": "fumbles",  "displayName": "Fumbles"},
+        {"fieldName": "interceptions",  "displayName": "Interceptions Thrown"}
+    ]
+};
 
+var footballOffensiveLinemanPlayerFields = {
+    "offensiveLineman": [
+        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
+        {"fieldName": "sacksAllowed",  "displayName": "Sacks Allowed"},
+        {"fieldName": "qbHits",  "displayName": "QB Hits Allowed"},
+        {"fieldName": "qbHurries",  "displayName": "QB Hurries Allowed"},
+        {"fieldName": "penaltiesCommitted",  "displayName": "Penalties Committed"},
+        {"fieldName": "penaltiesAccepted",  "displayName": "Penalties Accepted"}
+    ]
+};
+
+var footballDefensivePlayerFields = {
+    "defensivePlayer": [
+        {"fieldName": "approximateValue",  "displayName": "Approximate Value"},
+        {"fieldName": "totalTackles",  "displayName": "Total Tackles"},
+        {"fieldName": "assistedTackles",  "displayName": "Assisted Tackles"},
+        {"fieldName": "sacks",  "displayName": "Sacks"},
+        {"fieldName": "passesDefended",  "displayName": "Passes Defended"},
+        {"fieldName": "interceptions",  "displayName": "Interceptions"},
+        {"fieldName": "forcedFumbles",  "displayName": "Forced Fumbles"},
+        {"fieldName": "fumblesRecovered",  "displayName": "Fumbles Recovered"},
+    ]
+};
+
+var nbaPositionOptions = ["PG","SG","SF","PF","C"]
+var mlbHitterPositionOptions = ["DH","C","1B","2B","3B","SS","OF"];
+var mlbPitcherPositionOptions = ["SP","RP"];
+var nflSkillPostionOptions = ["QB","RB","WR","TE"];
+var nflOffensiveLineOptions = ["C","G","T"];
+var nflDefensivePlayerOptions = ["DE","DT","DB","MLB","OLB","S"];
 
 
 
