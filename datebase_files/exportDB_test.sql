@@ -544,7 +544,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `get_players_in_sport`(
 	IN sport char(3)
 )
 BEGIN
-	SELECT * FROM players p WHERE sport = p.sport;
+	SELECT * FROM players p WHERE sport = p.sport ORDER BY p.playerName ASC;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -603,4 +603,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-06 18:16:01
+-- Dump completed on 2016-12-06 19:26:05

@@ -342,7 +342,7 @@ CREATE PROCEDURE get_players_in_sport
 	IN sport char(3)
 )
 BEGIN
-	SELECT * FROM players p WHERE sport = p.sport;
+	SELECT * FROM players p WHERE sport = p.sport ORDER BY p.playerName ASC;
 END$$
 DELIMITER ;
 
