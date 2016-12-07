@@ -1,7 +1,6 @@
 /**
  * Created by Elias Elgarten on 12/3/2016.
  */
-
 var sportPositionTypes = {
 
     "NBA": [],
@@ -134,10 +133,6 @@ var nflSkillPostionOptions = ["QB","RB","WR","TE"];
 var nflOffensiveLineOptions = ["C","G","T"];
 var nflDefensivePlayerOptions = ["DE","DT","DB","MLB","OLB","S"];
 
-
-
-
-//var players = [];
 var currentAction = "";
 
 /* --- Functions to get and submit data to API */
@@ -159,6 +154,7 @@ var getPlayerById = function (playerId) {
 
     var response = $.getJSON('/getPlayer/' + playerId).done(function (data) {
         var player = data[0];
+        console.log(player);
         return player;
     });
     return response;
@@ -258,15 +254,39 @@ var toggleShowPlayerList = function () {
     }
 };
 
+var createGetPlayerResults = function (args) {
+    var tableHead = "<tr>";
+    for (var key in args) {
+        if (args.hasOwnProperty(key)) {
+            tableHead += "<th>" + key + "</th>";
+        }
+    }
+    tableHead += "</tr>";
+
+    var tableBody = "<tr>";
+    for (var key in args) {
+        if (args.hasOwnProperty(key)) {
+            tableBody += "<td>" + args[key] + "</td>";
+        }
+    }
+    tableBody += "</tr>";
+
+    var resultTable = tableHead + tableBody;
+
+    $('#displayResultsTable').html(resultTable);
+};
+
 var submitGetPlayer = function (playerDropdownElement) {
     var playerId = getActiveDropdownElement(playerDropdownElement);
     console.log(playerId);
 
-    var getPlayerByIdCall= getPlayerById(playerId);
+    var getPlayerByIdCall = getPlayerById(playerId);
     $.when(getPlayerByIdCall).done(function (player) {
+        console.log('in here');
         showResults();
-
-    })
+        console.log(player[0][0]);
+        createGetPlayerResults(player[0][0]);
+    });
 };
 
 $(document).ready(function () {

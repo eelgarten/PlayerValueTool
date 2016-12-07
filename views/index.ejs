@@ -21,32 +21,32 @@
 </section>
 
 <div id="getPlayerMenu" class="form-class">
-        <section>
-            <p>Get Player Info</p>
-            <p>
-                <label for="getPlayerSport">Choose a sport:</label>
-                <select name="getPlayerSelectSport" class="sport" id="getPlayerSport">
-                    <option value="none" selected="selected"></option>
-                    <option value="NFL">NFL</option>
-                    <option value="NBA">NBA</option>
-                    <option value="MLB">MLB</option>
-                </select>
-            </p>
+    <section>
+        <p>Get Player Info</p>
+        <p>
+            <label for="getPlayerSport">Choose a sport:</label>
+            <select name="getPlayerSelectSport" class="sport" id="getPlayerSport">
+                <option value="none" selected="selected"></option>
+                <option value="NFL">NFL</option>
+                <option value="NBA">NBA</option>
+                <option value="MLB">MLB</option>
+            </select>
+        </p>
 
-            <p>
+        <p>
                 <span id="getPlayerList">
                 <label for="getPlayer">Choose a player:</label>
                 <select name="selectGetPlayer" id="getPlayer">
                 </select>
                     </span>
-            </p>
-        </section>
+        </p>
+    </section>
 
-        <section>
+    <section>
             <span id="getPlayerButton">
             <button name="getPlayerSubmit" onclick="submitGetPlayer('selectGetPlayer')">Get player</button>
                 </span>
-        </section>
+    </section>
 </div>
 
 <div id="deletePlayerMenu" class="form-class">
@@ -83,7 +83,15 @@
 <div id="addPlayerMenu" class="form-class"><p>Add Player</p></div>
 <div id="updatePlayerMenu" class="form-class"><p>Update Player</p></div>
 
-<div id="queryResultsDisplay"><p>Results</p></div>
+<div id="queryResultsDisplay" class="queryResults">
+    <p class="tableTitle">Player Stats</p>
+    <div id="table-wrapper">
+        <div id="table-scroll">
+            <table id="displayResultsTable" class="gridtable">
+            </table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
