@@ -519,7 +519,7 @@ BEGIN
     ELSE SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This sport or player does not exist.';
     END IF;
     
-    SET @t1 := CONCAT("SELECT * FROM ",@tableName," WHERE ","'",pId,"'"," = ",@tableName,".playerId");
+    SET @t1 := CONCAT("SELECT * FROM  players p JOIN ",@tableName," ON p.playerId = ",@tableName,".playerId ","WHERE ","'",pId,"'"," = ",@tableName,".playerId");
     PREPARE stmt FROM @t1;
     EXECUTE stmt;
 	DEALLOCATE PREPARE stmt; 
@@ -603,4 +603,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-06 19:26:05
+-- Dump completed on 2016-12-06 23:26:25
