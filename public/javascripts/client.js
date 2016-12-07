@@ -9,30 +9,88 @@ var sportPositionTypes = {
         {"positionType": "hitter", "displayName": "Hitter"},
         {"positionType": "pitcher", "displayName": "Pitcher"}
     ],
-    "NFL": {
-        "offensive": {
-            id: 1,
-            display: "Skill Position player"
-        },
-        "defensive": {
-            id: 2,
-            display: "Defensive player"
-        },
-        "offensiveLine" : {
-            id: 3,
-            display: "Offensive lineman"
-        }
-    }
+    "NFL": [
+        {"positionType": "kill position player", "displayName": "Skill Position Player"},
+        {"positionType": "defensive player", "displayName": "Defensive Player"},
+        {"positionType": "offensive line", "displayName": "Offensive Lineman"}
+    ]
 }
 
 var playerTableFields = {
     "generalPlayer": [
-        {fieldName: "playerName", displayName: "Player name"},
-        
-    ],
-
-
+        {"fieldName": "playerName", "displayName": "Player name"},
+        {"fieldName": "playerPosition", "displayName": "Position"},
+        {"fieldName": "playerSport", "displayName": "Sport"},
+        {"fieldName": "playerTeam", "displayName": "Team"},
+        {"fieldName": "playerSalary", "displayName": "Salary"}
+    ]
 };
+
+var baseballHitterTableFields = {
+    "baseballHitter": [
+        {"fieldName": "atBats",  "displayName": "AB"},
+        {"fieldName": "runsScored",  "displayName": "R"},
+        {"fieldName": "hits",  "displayName": "H"},
+        {"fieldName": "doubles",  "displayName": "2B"},
+        {"fieldName": "triples",  "displayName": "3B"},
+        {"fieldName": "homeruns",  "displayName": "HR"},
+        {"fieldName": "runsBattedIn",  "displayName": "RBI"},
+        {"fieldName": "stolenBases",  "displayName": "SB"},
+        {"fieldName": "caughtStealing",  "displayName": "CS"},
+        {"fieldName": "walksDrawn",  "displayName": "BB"},
+        {"fieldName": "strikeouts",  "displayName": "SO"},
+        {"fieldName": "battingAverage",  "displayName": "AVG"},
+        {"fieldName": "onBasePercentage",  "displayName": "OBP"},
+        {"fieldName": "sluggingPercentage",  "displayName": "SLG"},
+        {"fieldName": "onBasePlusSlugging",  "displayName": "OPS"},
+        {"fieldName": "winsAboveReplacement",  "displayName": "WAR"}
+    ]
+};
+
+var baseballPitcherTableFields = {
+    "baseballPitcher": [
+        {"fieldName": "gamesPitched",  "displayName": "GP"},
+        {"fieldName": "gamesStarted",  "displayName": "GS"},
+        {"fieldName": "inningsPitched",  "displayName": "IP"},
+        {"fieldName": "hitsAllowed",  "displayName": "H"},
+        {"fieldName": "runsGivenUp",  "displayName": "R"},
+        {"fieldName": "earnedRuns",  "displayName": "ER"},
+        {"fieldName": "walksAllowed",  "displayName": "BB"},
+        {"fieldName": "strikeouts",  "displayName": "SO"},
+        {"fieldName": "wins",  "displayName": "W"},
+        {"fieldName": "losses",  "displayName": "L"},
+        {"fieldName": "saves",  "displayName": "SV"},
+        {"fieldName": "blownSaves",  "displayName": "BS"},
+        {"fieldName": "walksPlusHitsAllowedPerInningsPitched",  "displayName": "WHIP"},
+        {"fieldName": "earnedRunAverage",  "displayName": "ERA"},
+        {"fieldName": "winsAboveReplacement",  "displayName": "WAR"}
+    ]
+};
+
+var basketballPlayerTableFields = {
+    "basketballPlayer": [
+        {"fieldName": "gamesPlayed",  "displayName": "G"},
+        {"fieldName": "playerEfficiencyRating",  "displayName": "PER"},
+        {"fieldName": "pointsPerGame",  "displayName": "PPG"},
+        {"fieldName": "reboundsPerGame",  "displayName": "RPG"},
+        {"fieldName": "assistsPerGame",  "displayName": "APG"},
+        {"fieldName": "stealsPerGame",  "displayName": "SPG"},
+        {"fieldName": "blocksPerGame",  "displayName": "BPG"},
+        {"fieldName": "fieldGoalPercentage",  "displayName": "FG%"},
+        {"fieldName": "trueShootingPercentage",  "displayName": "TS%"},
+        {"fieldName": "usagePercentage",  "displayName": "USG%"},
+        {"fieldName": "valueOverReplacementPlayer",  "displayName": "VORP"},
+
+    ]
+};
+
+var footballSkillPositionPlayerFields = {};
+var footballOffensiveLinemanPlayerFields = {};
+var footballDefensivePlayerFields = {};
+
+
+
+
 
 //var players = [];
 var currentAction = "";
