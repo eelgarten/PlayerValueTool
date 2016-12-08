@@ -108,6 +108,7 @@ const playerTableFields = {
         "interceptions": "Interceptions",
         "forcedFumbles": "Forced Fumbles",
         "fumblesRecovered": "Fumbles Recovered",
+        "defensiveTD": "Defensive TDs"
     }
 };
 
@@ -126,6 +127,9 @@ var showGetPlayer = function() {
     currentAction = "get";
     toggleShowPlayerList();
     $('#queryResultsDisplay').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
     $('#getPlayerMenu').show();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
@@ -135,6 +139,9 @@ var showGetPlayer = function() {
 var showAddPlayer = function() {
     currentAction = "add";
     $('#queryResultsDisplay').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').show();
     $('#updatePlayerMenu').hide();
@@ -144,6 +151,9 @@ var showAddPlayer = function() {
 var showUpdatePlayer = function () {
     currentAction = "update";
     $('#queryResultsDisplay').hide();
+    $('#updatePlayerFields').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').show();
@@ -154,6 +164,9 @@ var showDeletePlayer = function () {
     currentAction = "delete";
     toggleShowPlayerList();
     $('#queryResultsDisplay').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
@@ -229,7 +242,7 @@ var determinePlayerAttribute = function (player) {
             }
         case "NFL" :
             if (nflSkillPlayerPostionOptions.includes(position)) {
-                attribute = 'nflSkill';
+                attribute = 'nflSkillPosition';
                 break;
             } else if (nflDefensivePlayerPositionOptions.includes(position)) {
                 attribute = 'nflDefensive';
@@ -288,7 +301,23 @@ var submitDeletePlayer = function (playerDropdownElement) {
         $('#nonTableResults').html("Player deleted successfully");
         $('#nonTableResults').show();
     });
+};
+
+var showUpdateFields = function () {
+    $('#updatePlayerFields').show();
 }
+
+var submitUpdatePlayer = function (playerDropdownElement) {
+    var playerId = getActiveDropdownElement(playerDropdownElement);
+    var newTeam = $('input[name=newTeamInput]').val();
+
+    var updatePlayerCall = updatePlayerById(playerId, newTeam);
+    $.when(updatePlayerCall).done(function () {
+        $('#updatePlayerResult').html("Player updated");
+        $('#updatePlayerResult').show();
+    });
+
+};
 
 /* --- Functions to get and submit data to API */
 
@@ -322,9 +351,31 @@ var deletePlayerById = function (playerId) {
     });
 
     return result;
+};
 
-}
+var updatePlayerById = function (playerId, newTeam) {
 
+   /* $.post('/updatePlayer', {playerId: playerId, team: newTeam}, function (data) {
+
+    }).done(console.log('posted'));*/
+    var jsonData = {playerId: playerId, team: newTeam};
+
+    $.ajax({
+        type: "POST",
+        data: JSON.stringify(jsonData),
+        url: "/updatePlayer",
+        contentType: "application/json"
+    });
+};
+
+var addNewPlayer = function () {
+    var formData = $('#addPlayerForm').serialize();
+
+    $.post("/addPlayer", formData).done(function (resp) {
+        $('#addPlayerResult').html("Player added");
+        $('#addPlayerResult').show();
+    });
+};
 
 $(document).ready(function () {
 
@@ -340,9 +391,13 @@ $(document).ready(function () {
                 var element = currentAction + 'Player';
                 showDropdown(players[0], element);
             });
-
         }
     });
+
+    $('#resetFormButton').click(function () {
+        $('#addPlayerResult').hide();
+    });
+
 
     // add a function to hide the "Deleted player" success message
 

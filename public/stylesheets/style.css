@@ -78,3 +78,19 @@ table.gridtable td {
   height:20px;
   width:35%;
 }
+
+#updatePlayerFields {
+  padding-top: 15px;
+}
+
+.form-field {
+  padding: 5px;
+}
+
+#addPlayerResult {
+  padding-top: 15px;
+}
+
+.formButtons {
+  padding: 10px;
+}
