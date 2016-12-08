@@ -394,3 +394,37 @@ BEGIN
 
 END$$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_top_five_players;
+DELIMITER $$
+
+CREATE PROCEDURE get_top_five_players
+(
+    IN sport char(3)
+)
+BEGIN
+    IF sport = 'NBA' THEN
+        SELECT * FROM players p JOIN basketballplayerstats bp ON p.playerId = bp.playerId ORDER BY bp.valueOverReplacementPlayer DESC LIMIT 5;
+    ELSEIF sport = 'MLB' THEN
+        SELECT * FROM players p JOIN baseballpitcherstats pitch ON p.playerId = pitch.playerId ORDER BY pitch.winsAboveReplacement DESC LIMIT 5;
+        SELECT * FROM players p JOIN baseballhitterstats hit ON p.playerId = hit.playerId ORDER BY hit.winsAboveReplacement DESC LIMIT 5;
+	ELSEIF sport = 'NFL' THEN
+        SELECT * FROM players p JOIN footballoffensiveplayerstats off ON p.playerId = off.playerId ORDER BY off.approximateValue DESC LIMIT 5;
+        SELECT * FROM players p JOIN footballoffensivelinestats ol ON p.playerId = ol.playerId ORDER BY ol.approximateValue DESC LIMIT 5;
+        SELECT * FROM players p JOIN footballdefensiveplayerstats def ON p.playerId = def.playerId ORDER BY def.approximateValue DESC LIMIT 5;
+    END IF;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS compare_players;
+DELIMITER $$
+
+CREATE PROCEDURE compare_players
+(
+	IN pID1 varchar(30), pID2 varchar(30)
+)
+BEGIN
+    CALL get_player(pID1);
+    CALL get_player(pID2);
+END$$
+DELIMITER ;
