@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS `playervaluetool`;
 CREATE DATABASE  IF NOT EXISTS `playervaluetool` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `playervaluetool`;
 -- MySQL dump 10.13  Distrib 5.7.16, for Win64 (x86_64)
