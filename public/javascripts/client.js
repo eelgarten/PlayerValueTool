@@ -290,6 +290,9 @@ var submitGetPlayer = function (playerDropdownElement) {
         showResults();
         createGetPlayerResults(player[0][0]);
     });
+
+    showResults();
+    $('#displayResultsTable').show();
 };
 
 var submitDeletePlayer = function (playerDropdownElement) {
@@ -300,6 +303,7 @@ var submitDeletePlayer = function (playerDropdownElement) {
         showResults();
         $('#nonTableResults').html("Player deleted successfully");
         $('#nonTableResults').show();
+        $('#displayResultsTable').hide();
     });
 };
 
