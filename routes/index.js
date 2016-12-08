@@ -38,6 +38,7 @@ router.get('/getPlayer/:playerId', function(req, res) {
     });
 });
 
+/* GET /deletePlayer/:playerId */
 router.get('/deletePlayer/:playerId', function(req, res) {
     var playerId = req.params.playerId;
 
@@ -51,6 +52,7 @@ router.get('/deletePlayer/:playerId', function(req, res) {
     });
 });
 
+/* POST /updatePlayer */
 router.post('/updatePlayer', function(req, res) {
     console.log(req.body);
     var playerId = req.body.playerId;
@@ -66,6 +68,7 @@ router.post('/updatePlayer', function(req, res) {
     });
 });
 
+/* POST /addPlayer */
 router.post('/addPlayer', function(req, res) {
     console.log(req.body);
     var playerName = req.body.playerName;
@@ -96,6 +99,20 @@ router.post('/addPlayer', function(req, res) {
             res.render('index', { title: 'Player Value Tool', message: "Player add"});
         }
     });
+});
+
+/* GET /getMostValuablePlayers/:sport */
+router.get('/getMostValuablePlayers/:sport', function (req, res) {
+    var sport = req.params.sport;
+
+    var queryString = "CALL get_top_five_players (?)";
+    connection.query(queryString, [sport], function (err, results, fields) {
+        if (err) {
+            return res.send('An error occurred:' + err);
+        } else {
+            return res.json(results);
+        }
+    })
 });
 
 module.exports = router;

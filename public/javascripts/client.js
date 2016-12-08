@@ -7,15 +7,15 @@
 const sportPositionTypes = {
 
     "NBA": [],
-    "MLB": [
-        {"positionType": "hitter","displayName": "Hitter"},
-        {"positionType": "pitcher","displayName": "Pitcher"}
-    ],
-    "NFL": [
-        {"positionType": "skill position player","displayName": "Skill Position Player"},
-        {"positionType": "defensive player","displayName": "Defensive Player"},
-        {"positionType": "offensiveLineman","displayName": "Offensive Lineman"}
-    ]
+    "MLB": {
+        "hitter": "Hitter",
+        "pitcher": "Pitcher"
+    },
+    "NFL": {
+        "skillPositionPlayer": "Skill Position Player",
+        "defensivePlayer": "Defensive Player",
+        "offensiveLineman": "Offensive Lineman"
+    }
 };
 
 const playerTableFields = {
@@ -134,6 +134,7 @@ var showGetPlayer = function() {
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').hide();
 };
 
 var showAddPlayer = function() {
@@ -146,6 +147,7 @@ var showAddPlayer = function() {
     $('#addPlayerMenu').show();
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').hide();
 };
 
 var showUpdatePlayer = function () {
@@ -158,6 +160,7 @@ var showUpdatePlayer = function () {
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').show();
     $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').hide();
 };
 
 var showDeletePlayer = function () {
@@ -171,6 +174,21 @@ var showDeletePlayer = function () {
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').show();
+    $('#getMostValuablePlayersMenu').hide();
+};
+
+var showGetMostValuablePlayers = function() {
+    currentAction = "get";
+    toggleShowPlayerList();
+    $('#queryResultsDisplay').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').show();
 };
 
 var activeSport = 'none';
@@ -323,6 +341,47 @@ var submitUpdatePlayer = function (playerDropdownElement) {
 
 };
 
+var submitGetMostValuablePlayers = function (elementId) {
+    var sport = getActiveDropdownElement(elementId);
+    console.log(sport);
+
+    var resultsCall = getMostValuablePlayers(sport);
+    $.when(resultsCall).done(function (results) {
+        var resultHTML = "";
+
+        results.forEach(function (item) {
+            // Make a table for each of the result lists that is returned from the db
+            var resultTable = "<div id='table-wrapper'><div id='table-scroll'><table>";
+            for (var player in item) {
+                var attribute = determinePlayerAttribute(item[player]) + 'Player';
+                var tableFields = $.extend(playerTableFields['generalPlayer'], playerTableFields[attribute]);
+
+                var tableHead = "<tr>";
+                for (var key in item[player]) {
+                    if (item[player].hasOwnProperty(key) && key !== 'playerId') {
+                        tableHead += "<th>" + tableFields[key] + "</th>";
+                    }
+                }
+                tableHead += "</tr>";
+
+                var tableBody = "<tr>";
+                for (var key in item[player]) {
+                    if (item[player].hasOwnProperty(key) && key !== 'playerId') {
+                        tableBody += "<td>" + item[player][key] + "</td>";
+                    }
+                }
+                tableBody += "</tr></table>";
+
+                resultTable += tableHead + tableBody;
+            };
+            console.log(resultTable);
+
+            resultHTML += resultTable + "</div></div>";
+        });
+        $('#getMostValuablePlayersResults').html(resultHTML);
+    })
+}
+
 /* --- Functions to get and submit data to API */
 
 /* Gets the players for a given sport, to be used in dropdown display */
@@ -357,11 +416,12 @@ var deletePlayerById = function (playerId) {
     return result;
 };
 
+
 var updatePlayerById = function (playerId, newTeam) {
 
-   /* $.post('/updatePlayer', {playerId: playerId, team: newTeam}, function (data) {
+    /* $.post('/updatePlayer', {playerId: playerId, team: newTeam}, function (data) {
 
-    }).done(console.log('posted'));*/
+     }).done(console.log('posted'));*/
     var jsonData = {playerId: playerId, team: newTeam};
 
     $.ajax({
@@ -379,6 +439,18 @@ var addNewPlayer = function () {
         $('#addPlayerResult').html("Player added");
         $('#addPlayerResult').show();
     });
+};
+
+var getMostValuablePlayers = function (sport) {
+    var response = $.getJSON('/getMostValuablePlayers/' + sport).done(function (data) {
+        console.log(data);
+        var returnArray = [];
+        data.forEach(function (item) {
+            returnArray.push(item);
+        });
+        return returnArray;
+    });
+    return response;
 };
 
 $(document).ready(function () {
@@ -401,8 +473,5 @@ $(document).ready(function () {
     $('#resetFormButton').click(function () {
         $('#addPlayerResult').hide();
     });
-
-
-    // add a function to hide the "Deleted player" success message
 
 });

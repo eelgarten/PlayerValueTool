@@ -18,6 +18,7 @@
     <button id="selectAddPlayer" onclick="showAddPlayer()">Add New Player</button>
     <button id="selectUpdatePlayer" onclick="showUpdatePlayer()">Update Existing Player</button>
     <button id="selectDeletePlayer" onclick="showDeletePlayer()">Delete Player</button>
+    <button id="selectGetMostValuablePlayers" onclick="showGetMostValuablePlayers()">Get Most Valuable Players</button>
 </section>
 
 <div id="getPlayerMenu" class="form-class">
@@ -154,6 +155,33 @@
         </div>
     </form>
 </div>
+
+
+<div id="getMostValuablePlayersMenu">
+    <section>
+    <p>Get most valuable players</p>
+    <p>
+        <label for="getMostValuablePlayerSport">Choose a sport:</label>
+        <select name="getMostValuablePlayersSelectSport" class="sport" id="getMostValuablePlayerSport">
+            <option value="none" selected="selected"></option>
+            <option value="NFL">NFL</option>
+            <option value="NBA">NBA</option>
+            <option value="MLB">MLB</option>
+        </select>
+    </p>
+
+    <p>
+        <button onclick="submitGetMostValuablePlayers('getMostValuablePlayersSelectSport')">Get players</button>
+    </p>
+    </section>
+
+    <section>
+        <div id="getMostValuablePlayersResults">
+
+        </div>
+    </section>
+</div>
+
 
 <div id="queryResultsDisplay" class="queryResults">
     <div id="nonTableResults"><p id="nonTableResult"></p></div>

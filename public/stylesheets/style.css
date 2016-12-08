@@ -20,7 +20,7 @@ a {
   display: none;
 }
 
-#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, .queryResultsDisplay {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, .queryResultsDisplay {
   display: none;
 }
 
