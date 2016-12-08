@@ -1,5 +1,10 @@
 # PlayerValueTool
 
+Getting Started
+---------------
+
+This is a guide on how to set up your environment
+
 Below is a description of all of the procedures written for the MySQL database. Below each procedure the inputs to those procedures are listed.
 
 Add Functionality
@@ -128,3 +133,12 @@ Get Functionality
   - playerId
 - get_players_in_sport : Get all players that play a particular sport
   - sportName
+- get_top_five_players : Get top five players of given sport
+  - sportName
+  
+Compare Functionality
+---------------------
+
+- compare_players :  Shows values for two different players
+  - playerId1
+  - playerId2
