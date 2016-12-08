@@ -11,7 +11,7 @@
 <body>
 <script type="text/javascript" src="/javascripts/client.js"></script>
 
-<h1>Welcome to the Player Value Tool!</h1>
+<h1>Player Value Tool</h1>
 <h3 id="subHeader">You can use this tool to retrieve a given player's stats, update player information, add a new player, or delete a player.</h3>
 <section id="selectActionOptions" class="selectAction">
     <button id="selectGetPlayer" onclick="showGetPlayer()">Get Player Info</button>
@@ -50,39 +50,101 @@
 </div>
 
 <div id="deletePlayerMenu" class="form-class">
-        <section>
-            <p>Delete Player Info</p>
-            <p>
-                <label for="deletePlayerSport">Choose a sport:</label>
-                <select name="deletePlayerSelectSport" class="sport" id="deletePlayerSport">
-                    <option value="none" selected="selected"></option>
-                    <option value="NFL">NFL</option>
-                    <option value="NBA">NBA</option>
-                    <option value="MLB">MLB</option>
-                </select>
-            </p>
+    <section>
+        <p>Delete Player Info</p>
+        <p>
+            <label for="deletePlayerSport">Choose a sport:</label>
+            <select name="deletePlayerSelectSport" class="sport" id="deletePlayerSport">
+                <option value="none" selected="selected"></option>
+                <option value="NFL">NFL</option>
+                <option value="NBA">NBA</option>
+                <option value="MLB">MLB</option>
+            </select>
+        </p>
 
-            <p>
+        <p>
                 <span id="deletePlayerList">
                 <label for="deletePlayer">Choose a player:</label>
                 <select name="selectDeletePlayer" id="deletePlayer">
                 </select>
                     </span>
-            </p>
-        </section>
+        </p>
+    </section>
 
-        <section>
+    <section>
             <span id="deletePlayerButton">
             <button name="deletePlayerSubmit" onclick="submitDeletePlayer('selectDeletePlayer')">Delete player</button>
                 </span>
-        </section>
+    </section>
 </div>
 
-<div id="addPlayerMenu" class="form-class"><p>Add Player</p></div>
-<div id="updatePlayerMenu" class="form-class"><p>Update Player</p></div>
+<div id="updatePlayerMenu" class="form-class">
+    <section>
+        <p>Update Player Info</p>
+        <p>Choose a player to update.</p>
+        <p>
+            <label for="updatePlayerSport">Choose a sport:</label>
+            <select name="updatePlayerSelectSport" class="sport" id="updatePlayerSport">
+                <option value="none" selected="selected"></option>
+                <option value="NFL">NFL</option>
+                <option value="NBA">NBA</option>
+                <option value="MLB">MLB</option>
+            </select>
+        </p>
+
+        <p>
+                <span id="updatePlayerList">
+                <label for="updatePlayer">Choose a player:</label>
+                <select name="selectUpdatePlayer" id="updatePlayer">
+                </select>
+                    </span>
+        </p>
+    </section>
+
+    <section>
+            <span id="updatePlayerButton">
+            <button name="updatePlayerSubmit" onclick="showUpdateFields()">Choose player</button>
+                </span>
+    </section>
+</div>
+
+<div id="addPlayerMenu" class="form-class">
+    <p>Add a new player:</p>
+    <form action="javascript:addNewPlayer()" id="addPlayerForm">
+        <div class="form-field">
+            <label for="playerName">Name</label>
+            <input type="text" id="playerName" name="playerName" maxlength="30" required/>
+        </div>
+        <div class="form-field">
+            <label for="position">Position</label>
+            <input type="text" id="position" name="position" maxlength="3" size="3" required/>
+        </div>
+        <div class="form-field">
+            <label for="sport">Sport</label>
+            <input type="text" id="sport" name="sport" minlength="3" maxlength="3" size="3" required/>
+        </div>
+        <div class="form-field">
+            <label for="teamName">Team name</label>
+            <input type="text" id="teamName" name="teamName" minlength="3" maxlength="3" size="3" required/>
+        </div>
+        <div class="form-field">
+            <label for="salary">Salary (in USD)</label>
+            <input type="text" id="salary" name="salary" maxlength="10" size="10" required/>
+        </div>
+        <div class="formButtons">
+            <button type="submit" value="Submit" id="submitAddPlayer">Add player</button>
+            <button onclick="this.form.reset()" id="resetFormButton">Reset form</button>
+        </div>
+
+        <div id="addPlayerResult">
+            <p id="resultMessage"></p>
+        </div>
+    </form>
+</div>
 
 <div id="queryResultsDisplay" class="queryResults">
     <div id="nonTableResults"><p id="nonTableResult"></p></div>
+
     <p id="tableTitle">Player Stats</p>
     <div id="table-wrapper">
         <div id="table-scroll">
@@ -92,6 +154,15 @@
     </div>
 
 </div>
+
+<div id="updatePlayerFields" hidden>
+    <label for="newTeamInput"></label>
+    New team: <input type="text" maxlength="3" size="3" name="newTeamInput">
+    <button type="submit" name="submitUpdatePlayerNewFields" onclick="submitUpdatePlayer('selectUpdatePlayer')">Update player</button>
+
+    <p id="updatePlayerResult" hidden></p>
+</div>
+
 
 </body>
 </html>
