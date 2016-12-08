@@ -1,9 +1,29 @@
 # PlayerValueTool
 
+Getting Started
+---------------
+
+This is a guide on how to set up your environment:
+
+##### Database
+- Open MySQL workbench
+- Run the exportDB_test.sql to install the database locally
+
+##### Web Application
+- Install Node
+- Get "player value tool" repo locally
+- Open command line
+- Go to the root of the repo (example: cd ~/Desktop/PlayerValueTool)
+- Run the command npm start
+
+After following this you can simply enter localhost:3000 in a web browser and you will be brought to the homepage of the project.
+
+MySQL Procedures
+----------------
+
 Below is a description of all of the procedures written for the MySQL database. Below each procedure the inputs to those procedures are listed.
 
-Add Functionality
------------------
+### Add Functionality
 
 The following procedures are used for adding to the database. Please not that each of these (excluding add_to_players_table) will throw an error if a player that does not exist in the error table is being used as an argument.
 
@@ -104,14 +124,12 @@ The following procedures are used for adding to the database. Please not that ea
   - fumbles
   - interceptions
   
-Delete Functionality
---------------------
+### Delete Functionality
 
 - delete_player : Deletes a player from the players table. This is a cascaded delete so the player is removed from the proper stat table as well
   - playerId
   
-Update Functionality
---------------------
+### Update Functionality
 
 - update_players_team : Updates a player's team in the players table
   - playerId
@@ -121,10 +139,17 @@ Update Functionality
   - playerId
   - newSalary
 
-Get Functionality
------------------
+### Get Functionality
 
 - get_player : Get a player and their corresponding info and stats
   - playerId
 - get_players_in_sport : Get all players that play a particular sport
   - sportName
+- get_top_five_players : Get top five players of given sport
+  - sportName
+  
+### Compare Functionality
+
+- compare_players :  Shows values for two different players
+  - playerId1
+  - playerId2
