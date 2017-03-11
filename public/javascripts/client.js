@@ -4,6 +4,8 @@
 
 /* --- Config vars --- */
 
+Chart.defaults.global.maintainAspectRatio = false;
+
 const sportPositionTypes = {
 
     "NBA": [],
@@ -135,6 +137,7 @@ var showGetPlayer = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersCharts').hide();
 };
 
 var showAddPlayer = function() {
@@ -148,6 +151,7 @@ var showAddPlayer = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersCharts').hide();
 };
 
 var showUpdatePlayer = function () {
@@ -161,6 +165,7 @@ var showUpdatePlayer = function () {
     $('#updatePlayerMenu').show();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersCharts').hide();
 };
 
 var showDeletePlayer = function () {
@@ -175,6 +180,7 @@ var showDeletePlayer = function () {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').show();
     $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersCharts').hide();
 };
 
 var showGetMostValuablePlayers = function() {
@@ -189,7 +195,22 @@ var showGetMostValuablePlayers = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').show();
+    $('#getMostValuablePlayersCharts').hide();
 };
+
+var showMostValuablePlayersChart = function () {
+    currentAction = "get";
+    $('#queryResultsDisplay').hide();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersCharts').show();
+}
 
 var activeSport = 'none';
 
@@ -240,6 +261,7 @@ var toggleShowPlayerList = function () {
 };
 
 var determinePlayerAttribute = function (player) {
+    console.log(player);
     var sport = player.sport;
     var position = player.pos;
     var attribute = "";
@@ -343,43 +365,101 @@ var submitUpdatePlayer = function (playerDropdownElement) {
 
 var submitGetMostValuablePlayers = function (elementId) {
     var sport = getActiveDropdownElement(elementId);
-    console.log(sport);
 
     var resultsCall = getMostValuablePlayers(sport);
     $.when(resultsCall).done(function (results) {
-        var resultHTML = "";
+        var resultHTML = "<div id='table-wrapper'>";
 
-        results.forEach(function (item) {
+        results.forEach(function (item, idx, array) {
+
             // Make a table for each of the result lists that is returned from the db
-            var resultTable = "<div id='table-wrapper'><div id='table-scroll'><table>";
-            for (var player in item) {
-                var attribute = determinePlayerAttribute(item[player]) + 'Player';
+            if (idx !== array.length - 1) {
+
+                console.log("item");
+                console.log(item[0]);
+                var resultTable = "<div id='table-scroll'><table class='gridtable'>";
+
+                var attribute = determinePlayerAttribute(item[0]) + 'Player';
                 var tableFields = $.extend(playerTableFields['generalPlayer'], playerTableFields[attribute]);
 
                 var tableHead = "<tr>";
-                for (var key in item[player]) {
-                    if (item[player].hasOwnProperty(key) && key !== 'playerId') {
-                        tableHead += "<th>" + tableFields[key] + "</th>";
+                for (var i in item[0]) {
+                    if (item[0].hasOwnProperty(i) && i !== 'playerId') {
+                        tableHead += "<th class='" + i + "'>" + tableFields[i] + "</th>";
                     }
                 }
                 tableHead += "</tr>";
+                resultTable += tableHead;
+                console.log(tableHead);
+                console.log(resultTable);
 
-                var tableBody = "<tr>";
-                for (var key in item[player]) {
-                    if (item[player].hasOwnProperty(key) && key !== 'playerId') {
-                        tableBody += "<td>" + item[player][key] + "</td>";
+                for (var player in item) {
+                    console.log(item);
+                    console.log(item[player]);
+
+                    var tableRow = "<tr>";
+                    for (var key in item[player]) {
+                        if (item[player].hasOwnProperty(key) && key !== 'playerId') {
+                            tableRow += "<td>" + item[player][key] + "</td>";
+                        }
                     }
+                    tableRow += "</tr>";
+
+                    resultTable += tableRow;
+                    console.log(resultTable);
                 }
-                tableBody += "</tr></table>";
+                ;
+                resultTable += "</table></div>";
+                console.log(resultTable);
 
-                resultTable += tableHead + tableBody;
-            };
-            console.log(resultTable);
-
-            resultHTML += resultTable + "</div></div>";
+                resultHTML += resultTable;
+            }
         });
+
+        resultHTML += "</div>";
         $('#getMostValuablePlayersResults').html(resultHTML);
     })
+};
+
+var submitGetMostValuablePlayersChart = function () {
+
+    var ctx = $("#mostValuablePlayersChart");
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                    }
+                }]
+            }
+        }
+    });
 }
 
 /* --- Functions to get and submit data to API */
@@ -443,6 +523,7 @@ var addNewPlayer = function () {
 
 var getMostValuablePlayers = function (sport) {
     var response = $.getJSON('/getMostValuablePlayers/' + sport).done(function (data) {
+        console.log("returned data from GET:");
         console.log(data);
         var returnArray = [];
         data.forEach(function (item) {

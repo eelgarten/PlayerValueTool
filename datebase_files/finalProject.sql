@@ -416,6 +416,29 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS get_top_fifteen_players;
+DELIMITER $$
+
+CREATE PROCEDURE get_top_fifteen_players
+(
+    IN sport char(3)
+)
+BEGIN
+    IF sport = 'NBA' THEN
+        SELECT * FROM players p JOIN basketballplayerstats bp ON p.playerId = bp.playerId ORDER BY bp.valueOverReplacementPlayer DESC LIMIT 15;
+    ELSEIF sport = 'MLB' THEN
+        SELECT * FROM players p JOIN baseballpitcherstats pitch ON p.playerId = pitch.playerId ORDER BY pitch.winsAboveReplacement DESC LIMIT 15;
+        SELECT * FROM players p JOIN baseballhitterstats hit ON p.playerId = hit.playerId ORDER BY hit.winsAboveReplacement DESC LIMIT 15;
+	ELSEIF sport = 'NFL' THEN
+        SELECT * FROM players p JOIN footballoffensiveplayerstats off ON p.playerId = off.playerId ORDER BY off.approximateValue DESC LIMIT 15;
+        SELECT * FROM players p JOIN footballoffensivelinestats ol ON p.playerId = ol.playerId ORDER BY ol.approximateValue DESC LIMIT 15;
+        SELECT * FROM players p JOIN footballdefensiveplayerstats def ON p.playerId = def.playerId ORDER BY def.approximateValue DESC LIMIT 15;
+    END IF;
+END$$
+DELIMITER ;
+
+
+
 DROP PROCEDURE IF EXISTS compare_players;
 DELIMITER $$
 

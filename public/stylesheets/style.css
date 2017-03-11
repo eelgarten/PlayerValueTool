@@ -20,7 +20,7 @@ a {
   display: none;
 }
 
-#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, .queryResultsDisplay {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, .queryResultsDisplay, #getMostValuablePlayersCharts {
   display: none;
 }
 
@@ -45,7 +45,7 @@ table.gridtable {
 }
 table.gridtable th {
   border-width: 1px;
-  padding: 8px;
+  padding: 5px;
   border-style: solid;
   border-color: #666666;
   background-color: #dedede;
@@ -62,7 +62,7 @@ table.gridtable td {
   position:relative;
 }
 #table-scroll {
-  height:150px;
+  // height:300px;
   overflow:auto;
   margin-top:20px;
 }
@@ -93,4 +93,35 @@ table.gridtable td {
 
 .formButtons {
   padding: 10px;
+}
+
+#getMostValuablePlayersResults {
+  width: 95%;
+}
+
+th.playerName {
+  width: 95px;
+}
+
+th.pos {
+  width:52px;
+}
+
+th.sport {
+  width:33px;
+}
+
+th.team {
+  width: 33px;
+}
+
+th.salary {
+  width: 66px;
+}
+
+th.approximateValue {
+  width: 80px;
+}
+
+#mostValuablePlayersChart {
 }
