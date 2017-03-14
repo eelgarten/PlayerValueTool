@@ -416,28 +416,34 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS get_top_fifteen_players;
+DROP PROCEDURE IF EXISTS get_top_twenty_players;
 DELIMITER $$
 
-CREATE PROCEDURE get_top_fifteen_players
+CREATE PROCEDURE get_top_twenty_players
 (
     IN sport char(3)
 )
 BEGIN
     IF sport = 'NBA' THEN
-        SELECT * FROM players p JOIN basketballplayerstats bp ON p.playerId = bp.playerId ORDER BY bp.valueOverReplacementPlayer DESC LIMIT 15;
+        SELECT p.playerId, p.playerName, p.pos, bp.valueOverReplacementPlayer FROM players p JOIN basketballplayerstats bp ON p.playerId = bp.playerId ORDER BY bp.valueOverReplacementPlayer DESC LIMIT 20;
     ELSEIF sport = 'MLB' THEN
-        SELECT * FROM players p JOIN baseballpitcherstats pitch ON p.playerId = pitch.playerId ORDER BY pitch.winsAboveReplacement DESC LIMIT 15;
-        SELECT * FROM players p JOIN baseballhitterstats hit ON p.playerId = hit.playerId ORDER BY hit.winsAboveReplacement DESC LIMIT 15;
+        SELECT p.playerId, p.playerName, p.pos, coalesce(pitch.winsAboveReplacement, hit.winsAboveReplacement) as war
+			FROM players p
+			LEFT JOIN baseballpitcherstats pitch ON p.playerId = pitch.playerId
+			LEFT JOIN baseballhitterstats hit ON p.playerId = hit.playerId
+		WHERE p.sport = 'MLB'
+		ORDER BY war DESC LIMIT 20;
 	ELSEIF sport = 'NFL' THEN
-        SELECT * FROM players p JOIN footballoffensiveplayerstats off ON p.playerId = off.playerId ORDER BY off.approximateValue DESC LIMIT 15;
-        SELECT * FROM players p JOIN footballoffensivelinestats ol ON p.playerId = ol.playerId ORDER BY ol.approximateValue DESC LIMIT 15;
-        SELECT * FROM players p JOIN footballdefensiveplayerstats def ON p.playerId = def.playerId ORDER BY def.approximateValue DESC LIMIT 15;
+        SELECT p.playerId, p.playerName, p.pos, coalesce(skill.approximateValue, def.approximateValue, line.approximateValue) as approxVal
+			FROM players p 
+			LEFT JOIN footballoffensiveplayerstats skill ON skill.playerId = p.playerId
+			LEFT JOIN footballdefensiveplayerstats def on def.playerId = p.playerId
+			LEFT JOIN footballoffensivelinestats line on line.playerId = p.playerId
+		WHERE p.sport = 'NFL'
+		ORDER BY approxVal DESC LIMIT 20;
     END IF;
 END$$
 DELIMITER ;
-
-
 
 DROP PROCEDURE IF EXISTS compare_players;
 DELIMITER $$
