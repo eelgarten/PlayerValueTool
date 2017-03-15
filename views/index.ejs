@@ -178,16 +178,28 @@
     </section>
 
     <section>
-        <div id="getMostValuablePlayersResults">
-
-        </div>
+        <div id="getMostValuablePlayersResults"></div>
     </section>
 </div>
 
-<div id="getMostValuablePlayersCharts">
+<div id="getMostValuablePlayersChartsMenu">
     <section>
-        <button onclick="submitGetMostValuablePlayersChart()">Display chart</button>
-        <canvas id="mostValuablePlayersChart" width="200" height="400"></canvas>
+        <p>Top 20 players by sport</p>
+        <p>
+            <label for="getChartSport">Choose a sport:</label>
+            <select name="getChartSelectSport" class="selectSport" id="getChartSport">
+                <option value="none" selected="selected"></option>
+                <option value="NFL">NFL</option>
+                <option value="NBA">NBA</option>
+                <option value="MLB">MLB</option>
+            </select>
+        </p>
+        <button onclick="submitGetMostValuablePlayersChart('getChartSelectSport')">Display chart</button>
+
+    </section>
+
+    <section class="container">
+        <canvas width="400" height="400" id="mostValuablePlayersChart"></canvas>
     </section>
 </div>
 

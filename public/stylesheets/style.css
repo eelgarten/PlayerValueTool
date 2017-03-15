@@ -20,7 +20,7 @@ a {
   display: none;
 }
 
-#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, .queryResultsDisplay, #getMostValuablePlayersCharts {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, #queryResultsDisplay, #getMostValuablePlayersChartsMenu, #chartDisplay {
   display: none;
 }
 
@@ -123,5 +123,7 @@ th.approximateValue {
   width: 80px;
 }
 
-#mostValuablePlayersChart {
+.container {
+  width:80%;
+  margin: 15px auto;
 }

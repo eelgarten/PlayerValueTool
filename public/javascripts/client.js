@@ -5,6 +5,7 @@
 /* --- Config vars --- */
 
 Chart.defaults.global.maintainAspectRatio = false;
+Chart.defaults.global.responsive = false;
 
 const sportPositionTypes = {
 
@@ -137,7 +138,7 @@ var showGetPlayer = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
-    $('#getMostValuablePlayersCharts').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
 };
 
 var showAddPlayer = function() {
@@ -151,7 +152,7 @@ var showAddPlayer = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
-    $('#getMostValuablePlayersCharts').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
 };
 
 var showUpdatePlayer = function () {
@@ -165,7 +166,7 @@ var showUpdatePlayer = function () {
     $('#updatePlayerMenu').show();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
-    $('#getMostValuablePlayersCharts').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
 };
 
 var showDeletePlayer = function () {
@@ -180,7 +181,7 @@ var showDeletePlayer = function () {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').show();
     $('#getMostValuablePlayersMenu').hide();
-    $('#getMostValuablePlayersCharts').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
 };
 
 var showGetMostValuablePlayers = function() {
@@ -195,7 +196,7 @@ var showGetMostValuablePlayers = function() {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').show();
-    $('#getMostValuablePlayersCharts').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
 };
 
 var showMostValuablePlayersChart = function () {
@@ -209,7 +210,7 @@ var showMostValuablePlayersChart = function () {
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
     $('#getMostValuablePlayersMenu').hide();
-    $('#getMostValuablePlayersCharts').show();
+    $('#getMostValuablePlayersChartsMenu').show();
 }
 
 var activeSport = 'none';
@@ -418,39 +419,87 @@ var submitGetMostValuablePlayers = function (elementId) {
 
         resultHTML += "</div>";
         $('#getMostValuablePlayersResults').html(resultHTML);
-    })
+    });
 };
 
-var submitGetMostValuablePlayersChart = function () {
+/* For top-20 player charts */
+var submitGetMostValuablePlayersChart = function (elementId) {
+    var sport = getActiveDropdownElement(elementId);
 
-    var ctx = $("#mostValuablePlayersChart");
-    var chart = new Chart(ctx, {
+    var resultsCall = getMostValuablePlayersChart(sport);
+    $.when(resultsCall).done(function (results) {
+
+        createPlayersChart(results[0], sport);
+        // $("#chartDisplay").show();
+    });
+
+};
+
+var createPlayersChart = function (players, sport) {
+    var ctx = document.getElementById("mostValuablePlayersChart").getContext("2d");
+
+    if (window.bar != undefined) {
+        window.bar.destroy();
+    }
+
+    var valueStatisticLabel = "";
+    var valueStatisticAbbreviation = "";
+    var valueKey = '';
+    var barColor = '';
+    var borderColor = '';
+
+    if (sport === 'NBA') {
+        valueStatisticLabel = "Value Over Replacement Player";
+        valueStatisticAbbreviation = "VORP";
+        valueKey = 'valueOverReplacementPlayer';
+        barColor = 'rgba(255, 99, 132, 0.2)'; // red
+        borderColor = 'rgba(255,99,132,1)';
+    }
+    else if (sport === 'MLB') {
+        valueStatisticLabel = "Wins Above Replacement Player";
+        valueStatisticAbbreviation = "WAR";
+        valueKey = 'war';
+        barColor = 'rgba(54, 162, 235, 0.2)';
+        borderColor = 'rgba(54, 162, 235, 1)';
+    }
+    else if (sport === 'NFL') {
+        valueStatisticLabel = "Approximate Value";
+        valueStatisticAbbreviation = "Value";
+        valueKey = 'approxVal';
+        barColor = 'rgba(75, 192, 192, 0.2)';
+        borderColor = 'rgba(75, 192, 192, 1)';
+    }
+
+    var chartLabels = [];
+    players.forEach(function (player) {
+        chartLabels.push(player['playerName'] + ", " + player['pos']);
+    });
+
+    var chartValues = [];
+    players.forEach(function (player) {
+        chartValues.push(player[valueKey]);
+    });
+
+    window.bar = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: chartLabels,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                label: valueStatisticAbbreviation,
+                data: chartValues,
+                backgroundColor: barColor,
+                borderColor: borderColor,
                 borderWidth: 1
             }]
         },
         options: {
+            responsive:true,
+            maintainAspectRatio:false,
+            title : {
+                display: true,
+                text: valueStatisticLabel,
+                fontSize: 20
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -523,13 +572,20 @@ var addNewPlayer = function () {
 
 var getMostValuablePlayers = function (sport) {
     var response = $.getJSON('/getMostValuablePlayers/' + sport).done(function (data) {
-        console.log("returned data from GET:");
-        console.log(data);
+
         var returnArray = [];
         data.forEach(function (item) {
             returnArray.push(item);
         });
         return returnArray;
+    });
+    return response;
+};
+
+var getMostValuablePlayersChart = function (sport) {
+    var response = $.getJSON('/getMostValuablePlayersChart/' + sport).done(function (data) {
+        var players = data[0];
+        return players;
     });
     return response;
 };

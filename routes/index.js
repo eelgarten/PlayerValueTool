@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 
+
 /* GET home page. */
 router.get('/', function(req, res) {
     res.render('index', { title: 'Player Value Tool' });
@@ -106,6 +107,20 @@ router.get('/getMostValuablePlayers/:sport', function (req, res) {
     var sport = req.params.sport;
 
     var queryString = "CALL get_top_five_players (?)";
+    connection.query(queryString, [sport], function (err, results, fields) {
+        if (err) {
+            return res.send('An error occurred:' + err);
+        } else {
+            return res.json(results);
+        }
+    })
+});
+
+/* GET /getMostValuablePlayersChart/:sport */
+router.get('/getMostValuablePlayersChart/:sport', function (req, res) {
+    var sport = req.params.sport;
+
+    var queryString = "CALL get_top_twenty_players (?)";
     connection.query(queryString, [sport], function (err, results, fields) {
         if (err) {
             return res.send('An error occurred:' + err);
