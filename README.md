@@ -145,8 +145,9 @@ The following procedures are used for adding to the database. Please not that ea
   - playerId
 - get_players_in_sport : Get all players that play a particular sport
   - sportName
-- get_top_five_players : Get top five players of given sport
+- get_top_five_players : Get top five players of given sport, organized by their position type
   - sportName
+- get_top_twenty_players: Get the top 20 OVERALL players from each sport 
   
 ### Compare Functionality
 
