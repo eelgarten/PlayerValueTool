@@ -130,6 +130,8 @@ var showGetPlayer = function() {
     currentAction = "get";
     toggleShowPlayerList();
     $('#queryResultsDisplay').hide();
+    $('#comparePlayersQueryResults').hide();
+    $('#comparePlayersMenu').hide();
     $('#addPlayerResult').hide();
     $('#updatePlayerFields').hide();
     $('#updatePlayerResult').hide();
@@ -141,9 +143,26 @@ var showGetPlayer = function() {
     $('#getMostValuablePlayersChartsMenu').hide();
 };
 
+var showComparePlayers = function() {
+    currentAction = "compare";
+    $('#queryResultsDisplay').hide();
+    $('#comparePlayersMenu').show();
+    $('#addPlayerResult').hide();
+    $('#updatePlayerFields').hide();
+    $('#updatePlayerResult').hide();
+    $('#getPlayerMenu').hide();
+    $('#addPlayerMenu').hide();
+    $('#updatePlayerMenu').hide();
+    $('#deletePlayerMenu').hide();
+    $('#getMostValuablePlayersMenu').hide();
+    $('#getMostValuablePlayersChartsMenu').hide();
+}
+
 var showAddPlayer = function() {
     currentAction = "add";
     $('#queryResultsDisplay').hide();
+    $('#comparePlayersQueryResults').hide();
+    $('#comparePlayersMenu').hide();
     $('#addPlayerResult').hide();
     $('#updatePlayerFields').hide();
     $('#updatePlayerResult').hide();
@@ -159,6 +178,8 @@ var showUpdatePlayer = function () {
     currentAction = "update";
     $('#queryResultsDisplay').hide();
     $('#updatePlayerFields').hide();
+    $('#comparePlayersQueryResults').hide();
+    $('#comparePlayersMenu').hide();
     $('#addPlayerResult').hide();
     $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
@@ -173,7 +194,9 @@ var showDeletePlayer = function () {
     currentAction = "delete";
     toggleShowPlayerList();
     $('#queryResultsDisplay').hide();
+    $('#comparePlayersQueryResults').hide();
     $('#addPlayerResult').hide();
+    $('#comparePlayersMenu').hide();
     $('#updatePlayerFields').hide();
     $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
@@ -189,9 +212,11 @@ var showGetMostValuablePlayers = function() {
     toggleShowPlayerList();
     $('#queryResultsDisplay').hide();
     $('#addPlayerResult').hide();
+    $('#comparePlayersMenu').hide();
     $('#updatePlayerFields').hide();
     $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
+    $('#comparePlayersQueryResults').hide();
     $('#addPlayerMenu').hide();
     $('#updatePlayerMenu').hide();
     $('#deletePlayerMenu').hide();
@@ -203,6 +228,8 @@ var showMostValuablePlayersChart = function () {
     currentAction = "get";
     $('#queryResultsDisplay').hide();
     $('#addPlayerResult').hide();
+    $('#comparePlayersQueryResults').hide();
+    $('#comparePlayersMenu').hide();
     $('#updatePlayerFields').hide();
     $('#updatePlayerResult').hide();
     $('#getPlayerMenu').hide();
@@ -336,6 +363,58 @@ var submitGetPlayer = function (playerDropdownElement) {
     $('#displayResultsTable').show();
 };
 
+var submitComparePlayers = function (firstPlayerDropdownElement, secondPlayerDropdownElement) {
+    console.log("submit compare players");
+    var firstPlayerId = getActiveDropdownElement(firstPlayerDropdownElement);
+    var secondPlayerId = getActiveDropdownElement(secondPlayerDropdownElement);
+
+    var comparePlayersCall = comparePlayersById(firstPlayerId, secondPlayerId);
+
+    $.when(comparePlayersCall).done(function (players) {
+        createComparePlayerResults(players[0], players[1]);
+    });
+}
+
+var createComparePlayerResults = function(firstPlayer, secondPlayer) {
+    var playerList = [firstPlayer[0], secondPlayer[0]];
+
+    var resultHTML = "<div id='table-wrapper'>";
+
+    for (var i = 0; i < 2; i++) {
+        var resultTable = "<div id='table-scroll'><table class='gridtable'>";
+        var attribute = determinePlayerAttribute(playerList[i]) + 'Player';
+        var tableFields = $.extend(playerTableFields['generalPlayer'], playerTableFields[attribute]);
+
+        var tableHead = "<tr>";
+        for (var key in playerList[i]) {
+            if (playerList[i].hasOwnProperty(key) && key !== 'playerId') {
+                tableHead += "<th>" + tableFields[key] + "</th>";
+            }
+        }
+        tableHead += "</tr>";
+        resultTable += tableHead;
+
+
+        var tableRow = "<tr>";
+        for (var key in playerList[i]) {
+            if (playerList[i].hasOwnProperty(key) && key !== 'playerId') {
+                tableRow += "<td>" + playerList[i][key] + "</td>";
+            }
+        }
+        tableRow += "</tr>";
+
+        resultTable += tableRow;
+        resultHTML += resultTable + "</table></div>";
+    }
+    resultHTML += "</div>";
+    console.log(resultHTML);
+
+    showResults();
+    $('#comparePlayersQueryResults').show();
+    $('.result').html(resultHTML);
+
+}
+
 var submitDeletePlayer = function (playerDropdownElement) {
     var playerId = getActiveDropdownElement(playerDropdownElement);
 
@@ -376,8 +455,6 @@ var submitGetMostValuablePlayers = function (elementId) {
             // Make a table for each of the result lists that is returned from the db
             if (idx !== array.length - 1) {
 
-                console.log("item");
-                console.log(item[0]);
                 var resultTable = "<div id='table-scroll'><table class='gridtable'>";
 
                 var attribute = determinePlayerAttribute(item[0]) + 'Player';
@@ -391,8 +468,7 @@ var submitGetMostValuablePlayers = function (elementId) {
                 }
                 tableHead += "</tr>";
                 resultTable += tableHead;
-                console.log(tableHead);
-                console.log(resultTable);
+
 
                 for (var player in item) {
                     console.log(item);
@@ -536,6 +612,15 @@ var getPlayerById = function (playerId) {
     return response;
 };
 
+var comparePlayersById = function (firstPlayerId, secondPlayerId) {
+
+    var response = $.getJSON('/getComparePlayers/' + firstPlayerId + '/' + secondPlayerId).done(function (data) {
+        // console.log(data[0]);
+    })
+
+    return response;
+}
+
 var deletePlayerById = function (playerId) {
 
     var result = $.getJSON('/deletePlayer/' + playerId).done(function (response) {
@@ -603,6 +688,35 @@ $(document).ready(function () {
             $.when(playerCall).done(function (players) {
                 var element = currentAction + 'Player';
                 showDropdown(players[0], element);
+            });
+        }
+    });
+
+
+    // UI functionality for Ccompare Players feature
+    $('.compareSport').change(function () {
+        // make sure that the current action is set properly to Compare
+        currentAction = "compare";
+
+        $('#nonTableResults').hide();
+        var compareSport = $('#comparePlayersSport').val();
+
+        if (compareSport !== 'none') {
+            $('#choosePlayers').show();
+        }
+        else {
+            console.log('fnaf');
+            $('#choosePlayers').hide();
+        }
+
+        if (compareSport !== 'none') {
+            var playerCall = getSportPlayers(compareSport);
+            $.when(playerCall).done(function (players) {
+                var element1 = currentAction + 'FirstPlayer';
+                showDropdown(players[0], element1);
+
+                var element2 = currentAction + 'SecondPlayer';
+                showDropdown(players[0], element2);
             });
         }
     });

@@ -20,7 +20,8 @@ a {
   display: none;
 }
 
-#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, #queryResultsDisplay, #getMostValuablePlayersChartsMenu, #chartDisplay {
+#getPlayerMenu, #addPlayerMenu, #updatePlayerMenu, #deletePlayerMenu, #getMostValuablePlayersMenu, #queryResultsDisplay, #getMostValuablePlayersChartsMenu,
+#chartDisplay, #choosePlayers {
   display: none;
 }
 
@@ -127,3 +128,4 @@ th.approximateValue {
   width:80%;
   margin: 15px auto;
 }
+

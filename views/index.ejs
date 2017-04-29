@@ -13,9 +13,10 @@
 <script type="text/javascript" src="/javascripts/client.js"></script>
 
 <h1>Player Value Tool</h1>
-<h3 id="subHeader">You can use this tool to retrieve a given player's stats, update player information, add a new player, or delete a player.</h3>
+<h3 id="subHeader">You can use this tool to retrieve a player's stats, update player information, add a new player, or delete a player.</h3>
 <section id="selectActionOptions" class="selectAction">
     <button id="selectGetPlayer" onclick="showGetPlayer()">Get Player Info</button>
+    <button id="selectComparePlayers" onclick="showComparePlayers()">Compare Players</button>
     <button id="selectAddPlayer" onclick="showAddPlayer()">Add New Player</button>
     <button id="selectUpdatePlayer" onclick="showUpdatePlayer()">Update Existing Player</button>
     <button id="selectDeletePlayer" onclick="showDeletePlayer()">Delete Player</button>
@@ -49,6 +50,39 @@
             <span id="getPlayerButton">
             <button name="getPlayerSubmit" onclick="submitGetPlayer('selectGetPlayer')">Get player</button>
                 </span>
+    </section>
+</div>
+
+<div id="comparePlayersMenu" class="form-class">
+    <section>
+        <p>Compare players</p>
+        <p>
+            <label for="comparePlayersSport">Choose a sport:</label>
+            <select name="comparePlayersSelectSport" class="compareSport" id="comparePlayersSport">
+                <option value="none" selected="selected"></option>
+                <option value="NFL">NFL</option>
+                <option value="NBA">NBA</option>
+                <option value="MLB">MLB</option>
+            </select>
+        </p>
+
+        <section id="choosePlayers">
+            <p>Select two players:</p>
+
+            <span id="comparePlayersFirstPlayerList">
+                <select name="selectFirstPlayer" id="compareFirstPlayer"></select>
+            </span>
+
+            <span id="comparePlayersSecondPlayerList">
+                <select name="selectSecondPlayer" id="compareSecondPlayer"></select>
+            </span>
+        </section>
+    </section>
+
+    <section>
+        <span id="comparePlayers">
+            <button name="comparePlayersSubmit" onclick="submitComparePlayers('selectFirstPlayer', 'selectSecondPlayer')">Compare players</button>
+        </span>
     </section>
 </div>
 
@@ -208,12 +242,17 @@
     <div id="nonTableResults"><p id="nonTableResult"></p></div>
 
     <p id="tableTitle">Player Stats</p>
-    <div id="table-wrapper">
+
+    <div id="table-wrapper" class="result">
         <div id="table-scroll">
             <table id="displayResultsTable" class="gridtable">
             </table>
         </div>
     </div>
+
+    <section>
+        <div id="comparePlayersQueryResults"></div>
+    </section>
 
 </div>
 

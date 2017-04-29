@@ -39,6 +39,21 @@ router.get('/getPlayer/:playerId', function(req, res) {
     });
 });
 
+/* GET /getPlayer/:firstPlayerId/:secondPlayerId */
+router.get('/getComparePlayers/:firstPlayerId/:secondPlayerId', function(req, res) {
+    var firstPlayerId = req.params.firstPlayerId;
+    var secondPlayerId = req.params.secondPlayerId;
+
+    var queryString = "CALL compare_players (?, ?)";
+    connection.query(queryString, [firstPlayerId, secondPlayerId], function (err, results, fields) {
+        if (err) {
+            return res.send('An error occurred: ' + err);
+        } else {
+            return res.json(results);
+        }
+    })
+})
+
 /* GET /deletePlayer/:playerId */
 router.get('/deletePlayer/:playerId', function(req, res) {
     var playerId = req.params.playerId;
@@ -129,5 +144,7 @@ router.get('/getMostValuablePlayersChart/:sport', function (req, res) {
         }
     })
 });
+
+
 
 module.exports = router;
