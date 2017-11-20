@@ -524,26 +524,28 @@ var createPlayersChart = function (players, sport) {
     var barColor = '';
     var borderColor = '';
 
-    if (sport === 'NBA') {
-        valueStatisticLabel = "Value Over Replacement Player";
-        valueStatisticAbbreviation = "VORP";
-        valueKey = 'valueOverReplacementPlayer';
-        barColor = 'rgba(255, 99, 132, 0.2)'; // red
-        borderColor = 'rgba(255,99,132,1)';
-    }
-    else if (sport === 'MLB') {
-        valueStatisticLabel = "Wins Above Replacement Player";
-        valueStatisticAbbreviation = "WAR";
-        valueKey = 'war';
-        barColor = 'rgba(54, 162, 235, 0.2)';
-        borderColor = 'rgba(54, 162, 235, 1)';
-    }
-    else if (sport === 'NFL') {
-        valueStatisticLabel = "Approximate Value";
-        valueStatisticAbbreviation = "Value";
-        valueKey = 'approxVal';
-        barColor = 'rgba(75, 192, 192, 0.2)';
-        borderColor = 'rgba(75, 192, 192, 1)';
+    switch (sport) {
+        case 'NBA':
+            valueStatisticLabel = "Value Over Replacement Player";
+            valueStatisticAbbreviation = "VORP";
+            valueKey = 'valueOverReplacementPlayer';
+            barColor = 'rgba(255, 99, 132, 0.2)'; // red
+            borderColor = 'rgba(255,99,132,1)';
+            break;
+        case 'MLB':
+            valueStatisticLabel = "Wins Above Replacement Player";
+            valueStatisticAbbreviation = "WAR";
+            valueKey = 'war';
+            barColor = 'rgba(54, 162, 235, 0.2)';
+            borderColor = 'rgba(54, 162, 235, 1)';
+            break;
+        case 'NFL':
+            valueStatisticLabel = "Approximate Value";
+            valueStatisticAbbreviation = "Value";
+            valueKey = 'approxVal';
+            barColor = 'rgba(75, 192, 192, 0.2)';
+            borderColor = 'rgba(75, 192, 192, 1)';
+            break;
     }
 
     var chartLabels = [];
