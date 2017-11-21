@@ -21,6 +21,8 @@ const sportPositionTypes = {
     }
 };
 
+// mappings from the database field names to their
+// formatted abbreviation or name
 const playerTableFields = {
     "generalPlayer": {
         "playerName": "Player Name",
@@ -255,6 +257,7 @@ var clearDropdown = function(elementId) {
     }
 };
 
+// populates the dropdown of possible players to choose from
 var populatePlayerDropdown = function (list, elementId) {
     for (var i = 0; i < list.length; i++) {
         var select = document.getElementById(elementId),
@@ -288,6 +291,8 @@ var toggleShowPlayerList = function () {
     }
 };
 
+// determines what category the player belongs in so that
+// they can be sorted with the same type of players
 var determinePlayerAttribute = function (player) {
     console.log(player);
     var sport = player.sport;
@@ -305,7 +310,7 @@ var determinePlayerAttribute = function (player) {
                 attribute = 'mlbPitcher';
                 break;
             } else {
-                console.log('error in mlb hitter');
+                console.log('error in mlb player');
                 break;
             }
         case "NFL" :
@@ -320,10 +325,10 @@ var determinePlayerAttribute = function (player) {
                 break;
             }
     }
-    console.log(attribute);
     return attribute;
 }
 
+// create the result table for a given player
 var createGetPlayerResults = function (player) {
     var attribute = determinePlayerAttribute(player) + 'Player';
     var tableFields = $.extend(playerTableFields['generalPlayer'] ,playerTableFields[attribute]);
@@ -375,11 +380,13 @@ var submitComparePlayers = function (firstPlayerDropdownElement, secondPlayerDro
     });
 }
 
+// creates two tables to compare the two players given
 var createComparePlayerResults = function(firstPlayer, secondPlayer) {
     var playerList = [firstPlayer[0], secondPlayer[0]];
 
     var resultHTML = "<div id='table-wrapper'>";
 
+    // only iterate twice in case we end up with extra player results in the list
     for (var i = 0; i < 2; i++) {
         var resultTable = "<div id='table-scroll'><table class='gridtable'>";
         var attribute = determinePlayerAttribute(playerList[i]) + 'Player';
@@ -393,7 +400,6 @@ var createComparePlayerResults = function(firstPlayer, secondPlayer) {
         }
         tableHead += "</tr>";
         resultTable += tableHead;
-
 
         var tableRow = "<tr>";
         for (var key in playerList[i]) {
@@ -443,6 +449,7 @@ var submitUpdatePlayer = function (playerDropdownElement) {
 
 };
 
+/* create a table of the most valuable players from each sport */
 var submitGetMostValuablePlayers = function (elementId) {
     var sport = getActiveDropdownElement(elementId);
 
@@ -471,8 +478,6 @@ var submitGetMostValuablePlayers = function (elementId) {
 
 
                 for (var player in item) {
-                    console.log(item);
-                    console.log(item[player]);
 
                     var tableRow = "<tr>";
                     for (var key in item[player]) {
@@ -483,11 +488,9 @@ var submitGetMostValuablePlayers = function (elementId) {
                     tableRow += "</tr>";
 
                     resultTable += tableRow;
-                    console.log(resultTable);
                 }
                 ;
                 resultTable += "</table></div>";
-                console.log(resultTable);
 
                 resultHTML += resultTable;
             }
@@ -504,13 +507,12 @@ var submitGetMostValuablePlayersChart = function (elementId) {
 
     var resultsCall = getMostValuablePlayersChart(sport);
     $.when(resultsCall).done(function (results) {
-
         createPlayersChart(results[0], sport);
-        // $("#chartDisplay").show();
     });
 
 };
 
+// creates a chart of the most valuable players for a chosen sport
 var createPlayersChart = function (players, sport) {
     var ctx = document.getElementById("mostValuablePlayersChart").getContext("2d");
 
@@ -524,6 +526,8 @@ var createPlayersChart = function (players, sport) {
     var barColor = '';
     var borderColor = '';
 
+    // assign the proper statistic labels and colors for the chart
+    // depending on which sport we're showing
     switch (sport) {
         case 'NBA':
             valueStatisticLabel = "Value Over Replacement Player";
@@ -548,11 +552,13 @@ var createPlayersChart = function (players, sport) {
             break;
     }
 
+    // map the player names for the chart entries
     var chartLabels = [];
     players.forEach(function (player) {
         chartLabels.push(player['playerName'] + ", " + player['pos']);
     });
 
+    // map the values for the chart entries
     var chartValues = [];
     players.forEach(function (player) {
         chartValues.push(player[valueKey]);
